@@ -1,0 +1,70 @@
+<html>
+<head>
+
+<title>Forsaken Ship Level</title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<script id="shader-fs" type="x-shader/x-fragment">
+  varying vec4 vColor;
+
+  void main(void) {
+    gl_FragColor = vColor;
+  }
+</script>
+
+<script id="shader-vs" type="x-shader/x-vertex">
+  attribute vec3 aVertexPosition;
+  attribute vec4 aVertexColor;
+
+  uniform mat4 uMVMatrix;
+  uniform mat4 uPMatrix;
+
+  varying vec4 vColor;
+
+  void main(void) {
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    vColor = aVertexColor;
+  }
+</script>
+
+<script type="text/javascript" src="ship.js"></script>
+<script type="text/javascript" src="fps.js"></script>
+<script type="text/javascript" src="sylvester.js"></script>
+<script type="text/javascript" src="glUtils.js"></script>
+<script type="text/javascript" src="vector.js"></script>
+<script type="text/javascript" src="quat.js"></script>
+<script type="text/javascript" src="gl.js"></script>
+<script type="text/javascript" src="image.js"></script>
+<script type="text/javascript" src="view.js"></script>
+<script type="text/javascript" src="inputs.js"></script>
+<script type="text/javascript" src="helpers.js"></script>
+<script type="text/javascript" src="mouse.js"></script>
+<script type="text/javascript" src="main.js"></script>
+
+</head>
+<body onload="init();">
+	<canvas id="lesson02-canvas" style="border: medium none; float:left;" 
+	width="500" height="500"></canvas>
+	<div style="float:left; margin:1em;">
+		<div><b>FPS:</b> <span id="fps">0</span></div>
+		<div><b>Position:</b> <span id="pos">0,0,0</span></div>
+		<div><b>Orientation:</b> <span id="quat">0,0,0,0</span></div>
+		<div><b>Mouse:</b> <span id="mouse">0,0</span></div>
+		<div style="padding-top:0.5em;">
+			<b>Vertices/Colors:</b> <span id="level-verts">0</span></div>
+		<div><b>Vertices Unique:</b> <span id="level-verts-unique">0</span></div>
+		<div><b>Triangles:</b> <span id="level-triangles">0</span></div>
+		<div>
+			<p><b>Keys:</b></p>
+			<b>w</b> = forward<br>
+			<b>s</b> = backward<br>
+			<b>e</b> = up<br>
+			<b>d</b> = down<br>
+			<b>f</b> = left<br>
+			<b>g</b> = right<br>
+		</div>
+		<div id="log">
+		</div>
+	</div>
+</body>
+</html>

@@ -6,24 +6,31 @@
 
 <script id="shader-fs" type="x-shader/x-fragment">
   varying vec4 vColor;
+  varying vec2 vTextureCoord;
+  uniform sampler2D uSampler;
 
-  void main(void) {
-    gl_FragColor = vColor;
+  void main(void)
+  {
+    gl_FragColor = vColor * texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
   }
 </script>
 
 <script id="shader-vs" type="x-shader/x-vertex">
   attribute vec3 aVertexPosition;
   attribute vec4 aVertexColor;
+  attribute vec2 aTextureCoord;
 
   uniform mat4 uMVMatrix;
   uniform mat4 uPMatrix;
 
   varying vec4 vColor;
+  varying vec2 vTextureCoord;
 
-  void main(void) {
+  void main(void)
+  {
     gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
     vColor = aVertexColor;
+    vTextureCoord = aTextureCoord;
   }
 </script>
 
@@ -34,7 +41,7 @@
 <script type="text/javascript" src="vector.js"></script>
 <script type="text/javascript" src="quat.js"></script>
 <script type="text/javascript" src="gl.js"></script>
-<script type="text/javascript" src="image.js"></script>
+<script type="text/javascript" src="images.js"></script>
 <script type="text/javascript" src="view.js"></script>
 <script type="text/javascript" src="inputs.js"></script>
 <script type="text/javascript" src="helpers.js"></script>
@@ -50,10 +57,10 @@
 		<div><b>Position:</b> <span id="pos">0,0,0</span></div>
 		<div><b>Orientation:</b> <span id="quat">0,0,0,0</span></div>
 		<div><b>Mouse:</b> <span id="mouse">0,0</span></div>
-		<div style="padding-top:0.5em;">
-			<b>Vertices/Colors:</b> <span id="level-verts">0</span></div>
+		<div style="padding-top:0.5em;"><b>Vertices/Colors:</b> <span id="level-verts">0</span></div>
 		<div><b>Vertices Unique:</b> <span id="level-verts-unique">0</span></div>
 		<div><b>Triangles:</b> <span id="level-triangles">0</span></div>
+		<div><b>TCords:</b> <span id="level-tcords">0</span></div>
 		<div>
 			<p><b>Keys:</b></p>
 			<b>w</b> = forward<br>
@@ -63,7 +70,9 @@
 			<b>f</b> = left<br>
 			<b>g</b> = right<br>
 		</div>
-		<div id="log">
+		<div>
+			<p><b>Logs</b></p>
+			<div id="log">.........................</div>
 		</div>
 	</div>
 </body>

@@ -105,6 +105,10 @@
 	{
 		camera = new View();
 		camera.pos.z = -4000;
+camera.pos.x = -2004;
+camera.pos.y = -561;
+camera.pos.z = 4020;
+camera.rotate(-90,0,0);
 	}
 
 	var init_inputs = function()
@@ -118,6 +122,7 @@
 	{
 		texture = Images.get("http://fly.thruhere.net/download/projectx/"+textures[0]);
 		document.body.appendChild(texture.image);
+		document.body.appendChild(texture.canvas);
 	}
 
 	var init = function() 
@@ -128,6 +133,7 @@
 		init_buffers();
 		init_camera();
 		init_inputs();
+Gamma.build(2.0);
 		init_textures();
 		setInterval(draw, 1);
 	}

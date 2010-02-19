@@ -11,7 +11,16 @@
 
   void main(void)
   {
-    gl_FragColor = vColor * texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+	vec4 pixel = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+	// alpha test - set transparent if pixel alpha is less than ref
+	float ref = 190.0;
+	if(pixel[3] < (ref/255.0))
+	{
+		gl_FragColor = vec4(0,0,0,1);
+		discard;
+		return;
+	}	
+	gl_FragColor = vColor * pixel;
   }
 </script>
 
@@ -35,6 +44,7 @@
 </script>
 
 <script type="text/javascript" src="ship.js"></script>
+<script type="text/javascript" src="gamma.js"></script>
 <script type="text/javascript" src="fps.js"></script>
 <script type="text/javascript" src="sylvester.js"></script>
 <script type="text/javascript" src="glUtils.js"></script>

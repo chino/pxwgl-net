@@ -6,14 +6,15 @@
 
 	var init_shaders = function()
 	{
-		var fragmentShader = getShader(gl, "shader-fs");
-		var vertexShader = getShader(gl, "shader-vs");
+		fragmentShader = getShader(gl, "shader-fs");
+		fragmentShaderColorOnly = getShader(gl, "shader-fs-color-only");
+		vertexShader = getShader(gl, "shader-vs");
 
 		shaderProgram = gl.createProgram();
 		gl.attachShader(shaderProgram, vertexShader);
 		gl.attachShader(shaderProgram, fragmentShader);
-		gl.linkProgram(shaderProgram);
 
+		gl.linkProgram(shaderProgram);
 		if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)){alert("Could not initialise shaders");}
 
 		gl.useProgram(shaderProgram);
@@ -36,9 +37,25 @@
 			gl.enableVertexAttribArray(shaderProgram.vertexCoordAttribute);
 		}
 
-		shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
-		shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-		shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
+		shaderProgram.pMatrixUniform     = gl.getUniformLocation(shaderProgram, "uPMatrix");
+		shaderProgram.mvMatrixUniform    = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+		shaderProgram.samplerUniform     = gl.getUniformLocation(shaderProgram, "uSampler");
+	}
+
+	var enable_texturing = function()
+	{
+		gl.detachShader(shaderProgram,fragmentShaderColorOnly);
+		gl.attachShader(shaderProgram,fragmentShader);
+		gl.linkProgram(shaderProgram);
+		if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)){alert("Could not initialise shaders");}
+	}
+
+	var disable_texturing = function()
+	{
+		gl.detachShader(shaderProgram,fragmentShader);
+		gl.attachShader(shaderProgram,fragmentShaderColorOnly);
+		gl.linkProgram(shaderProgram);
+		if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)){alert("Could not initialise shaders");}
 	}
 
 	var setMatrixUniforms = function() 
@@ -104,11 +121,10 @@
 	var init_camera = function()
 	{
 		camera = new View();
-		camera.pos.z = -4000;
-camera.pos.x = -2004;
-camera.pos.y = -561;
-camera.pos.z = 4020;
-camera.rotate(-90,0,0);
+		camera.pos.x = -2004;
+		camera.pos.y = -561;
+		camera.pos.z = 4020;
+		camera.rotate(-90,0,0);
 	}
 
 	var init_inputs = function()
@@ -121,19 +137,56 @@ camera.rotate(-90,0,0);
 	var init_textures = function()
 	{
 		texture = Images.get("http://fly.thruhere.net/download/projectx/"+textures[0]);
+		texture.image.style.width = '200px';
+		texture.canvas.style.width = '200px';
 		document.body.appendChild(texture.image);
 		document.body.appendChild(texture.canvas);
 	}
 
+	var init_ui = function()
+	{
+		// textures
+		texture_button = document.getElementById('texture-button');
+		textures_enabled = true;
+		texture_button.onclick = function()
+		{
+			this.value = this.value == 'Disable' ? 'Enable' : 'Disable';
+			textures_enabled = !textures_enabled;
+			if(textures_enabled)
+			{
+				enable_texturing();
+			}
+			else
+			{
+				disable_texturing();
+			}
+		}
+		// render mode
+		render_mode = gl.TRIANGLES;
+		mode_button = document.getElementById('mode-button');
+                mode_button.onclick = function()
+                {
+                        this.value = this.value == 'Disable' ? 'Enable' : 'Disable';
+			render_mode = render_mode == gl.TRIANGLES ? gl.LINES : gl.TRIANGLES;
+                }
+		// gamma setting
+		document.getElementById('gamma-value').onkeypress = function()
+		{
+			Gamma.build(this.value);
+			Images.reset();
+		}
+	}
+
 	var init = function() 
 	{
+		Gamma.build(1.0); // build default table that reflects no change
 		init_info();
 		init_gl();
+		init_ui();
 		init_shaders()
 		init_buffers();
 		init_camera();
 		init_inputs();
-Gamma.build(2.0);
 		init_textures();
 		setInterval(draw, 1);
 	}
@@ -173,8 +226,7 @@ Gamma.build(2.0);
 		gl.uniform1i(shaderProgram.samplerUniform, 0);
 
 		setMatrixUniforms();
-		mode = gl.TRIANGLES; //gl.LINES;
-		gl.drawArrays(mode, 0, triangleVertexPositionBuffer.numItems);
+		gl.drawArrays(render_mode, 0, triangleVertexPositionBuffer.numItems);
 
 		// update info pain
 		document.getElementById('fps').innerHTML = fps.run();
@@ -182,3 +234,6 @@ Gamma.build(2.0);
 		document.getElementById('quat').innerHTML = camera.orientation.to_s();
 		document.getElementById('mouse').innerHTML = xy.to_s();
 	}
+
+
+

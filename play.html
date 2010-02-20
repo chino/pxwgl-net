@@ -4,43 +4,54 @@
 <title>Forsaken Ship Level</title>
 <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 
-<script id="shader-fs" type="x-shader/x-fragment">
-  varying vec4 vColor;
-  varying vec2 vTextureCoord;
-  uniform sampler2D uSampler;
-
-  void main(void)
-  {
-	vec4 pixel = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
-	// alpha test - set transparent if pixel alpha is less than ref
-	float ref = 190.0;
-	if(pixel[3] < (ref/255.0))
+<script id="shader-fs-color-only" type="x-shader/x-fragment">
+	varying vec4 vColor;
+	void main(void)
 	{
-		gl_FragColor = vec4(0,0,0,1);
-		discard;
-		return;
-	}	
-	gl_FragColor = vColor * pixel;
-  }
+		gl_FragColor = vColor;
+	}
+</script>
+
+<script id="shader-fs" type="x-shader/x-fragment">
+	varying vec4 vColor;
+	varying vec2 vTextureCoord;
+	uniform sampler2D uSampler;
+
+	void main(void)
+	{
+		// get texture pixel value
+		vec4 pixel = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+		// alpha test - ignore fragement if pixel alpha is less than ref (transparency)
+		float ref = 191.0;
+		if(pixel[3] < (ref/255.0))
+		{
+			discard;
+			return;
+		}
+		// blend color with pixel value
+		gl_FragColor = vColor * pixel;
+	}
 </script>
 
 <script id="shader-vs" type="x-shader/x-vertex">
-  attribute vec3 aVertexPosition;
-  attribute vec4 aVertexColor;
-  attribute vec2 aTextureCoord;
+	attribute vec3 aVertexPosition;
+	attribute vec4 aVertexColor;
+	attribute vec2 aTextureCoord;
 
-  uniform mat4 uMVMatrix;
-  uniform mat4 uPMatrix;
+	uniform mat4 uMVMatrix;
+	uniform mat4 uPMatrix;
 
-  varying vec4 vColor;
-  varying vec2 vTextureCoord;
+	varying vec4 vColor;
+	varying vec2 vTextureCoord;
 
-  void main(void)
-  {
-    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
-    vColor = aVertexColor;
-    vTextureCoord = aTextureCoord;
-  }
+	void main(void)
+	{
+		// apply perspective and model view matrixes to vertex position
+		gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+		// pass values to the fragment shader
+		vColor = aVertexColor;
+		vTextureCoord = aTextureCoord;
+	}
 </script>
 
 <script type="text/javascript" src="ship.js"></script>
@@ -63,22 +74,35 @@
 	<canvas id="lesson02-canvas" style="border: medium none; float:left;" 
 	width="500" height="500"></canvas>
 	<div style="float:left; margin:1em;">
-		<div><b>FPS:</b> <span id="fps">0</span></div>
-		<div><b>Position:</b> <span id="pos">0,0,0</span></div>
-		<div><b>Orientation:</b> <span id="quat">0,0,0,0</span></div>
-		<div><b>Mouse:</b> <span id="mouse">0,0</span></div>
-		<div style="padding-top:0.5em;"><b>Vertices/Colors:</b> <span id="level-verts">0</span></div>
-		<div><b>Vertices Unique:</b> <span id="level-verts-unique">0</span></div>
-		<div><b>Triangles:</b> <span id="level-triangles">0</span></div>
-		<div><b>TCords:</b> <span id="level-tcords">0</span></div>
-		<div>
-			<p><b>Keys:</b></p>
-			<b>w</b> = forward<br>
-			<b>s</b> = backward<br>
-			<b>e</b> = up<br>
-			<b>d</b> = down<br>
-			<b>f</b> = left<br>
-			<b>g</b> = right<br>
+		<div style="float:left; margin:0.5em;">
+			<div><b>FPS:</b> <span id="fps">0</span></div>
+			<div><b>Position:</b> <span id="pos">0,0,0</span></div>
+			<div><b>Orientation:</b> <span id="quat">0,0,0,0</span></div>
+			<div><b>Mouse:</b> <span id="mouse">0,0</span></div>
+			<div style="padding-top:0.5em;"><b>Vertices/Colors:</b> <span id="level-verts">0</span></div>
+			<div><b>Vertices Unique:</b> <span id="level-verts-unique">0</span></div>
+			<div><b>Triangles:</b> <span id="level-triangles">0</span></div>
+			<div><b>TCords:</b> <span id="level-tcords">0</span></div>
+			<div>
+				<p><b>Keys:</b></p>
+				<b>w</b> = forward<br>
+				<b>s</b> = backward<br>
+				<b>e</b> = up<br>
+				<b>d</b> = down<br>
+				<b>f</b> = left<br>
+				<b>g</b> = right<br>
+			</div>
+		</div>
+		<div style="float:left; margin:0.5em;">
+			<p><b>Settings:</b></p>
+			Textures: <input id="texture-button" type="button" value="Disable"/><br>
+			WireFrame: <input id="mode-button" type="button" value="Enable"/><br>
+			<p>
+				Gamma: <input id="gamma-value" type="text" value="1" style="width:2em;"/><br>
+				blue line: no change in image.<br>
+				red line: new values for rbga.<br>
+				<canvas id="gamma-canvas" height="255" width="255" style="border:1px solid black;"></canvas><br>
+			</p>
 		</div>
 		<div>
 			<p><b>Logs</b></p>

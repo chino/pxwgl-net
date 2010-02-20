@@ -2,6 +2,13 @@
 var Images = 
 {
 	images: {},
+	reset: function()
+	{
+		for(src in this.images)
+		{
+			this.images[src].image.src = src;
+		}
+	},
 	get: function(src)
 	{
 		if(this.images[src]) { return this.images[src]; }

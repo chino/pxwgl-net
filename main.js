@@ -40,6 +40,7 @@
 		shaderProgram.pMatrixUniform     = gl.getUniformLocation(shaderProgram, "uPMatrix");
 		shaderProgram.mvMatrixUniform    = gl.getUniformLocation(shaderProgram, "uMVMatrix");
 		shaderProgram.samplerUniform     = gl.getUniformLocation(shaderProgram, "uSampler");
+		shaderProgram.pointSizeUniform   = gl.getUniformLocation(shaderProgram, "uPointSize");
 	}
 
 	var enable_texturing = function()
@@ -145,10 +146,8 @@
 
 	var init_ui = function()
 	{
-		// textures
-		texture_button = document.getElementById('texture-button');
 		textures_enabled = true;
-		texture_button.onclick = function()
+		document.getElementById('texture-button').onclick = function()
 		{
 			this.value = this.value == 'Disable' ? 'Enable' : 'Disable';
 			textures_enabled = !textures_enabled;
@@ -161,19 +160,27 @@
 				disable_texturing();
 			}
 		}
-		// render mode
 		render_mode = gl.TRIANGLES;
-		mode_button = document.getElementById('mode-button');
-                mode_button.onclick = function()
+		document.getElementById('rendermode-dropdown').onchange = function()
                 {
-                        this.value = this.value == 'Disable' ? 'Enable' : 'Disable';
-			render_mode = render_mode == gl.TRIANGLES ? gl.LINES : gl.TRIANGLES;
+			render_mode = {
+				triangles: gl.TRIANGLES,
+				lines: gl.LINES,
+				points: gl.POINTS
+			}[this.value];
                 }
-		// gamma setting
 		document.getElementById('gamma-value').onkeypress = function()
 		{
 			Gamma.build(this.value);
 			Images.reset();
+		}
+		document.getElementById('line-width').onkeypress = function()
+		{
+			gl.lineWidth(this.value);
+		}
+		document.getElementById('point-size').onkeypress = function()
+		{
+			gl.uniform1f(shaderProgram.pointSizeUniform, this.value);
 		}
 	}
 

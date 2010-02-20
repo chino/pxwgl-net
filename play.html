@@ -40,6 +40,7 @@
 
 	uniform mat4 uMVMatrix;
 	uniform mat4 uPMatrix;
+	uniform float uPointSize;
 
 	varying vec4 vColor;
 	varying vec2 vTextureCoord;
@@ -48,6 +49,10 @@
 	{
 		// apply perspective and model view matrixes to vertex position
 		gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+
+		// size of points
+		gl_PointSize = uPointSize;
+
 		// pass values to the fragment shader
 		vColor = aVertexColor;
 		vTextureCoord = aTextureCoord;
@@ -96,7 +101,15 @@
 		<div style="float:left; margin:0.5em;">
 			<p><b>Settings:</b></p>
 			Textures: <input id="texture-button" type="button" value="Disable"/><br>
-			WireFrame: <input id="mode-button" type="button" value="Enable"/><br>
+			RenderMode: 
+			<select id="rendermode-dropdown">
+				<option value="triangles">Triangles</option>
+				<option value="lines">Lines</option>
+				<option value="points">Points</option>
+			</select>
+			<br>
+			Line Width: <input id="line-width" type="text" value="1" style="width:2em;"/><br>
+			Point Size: <input id="point-size" type="text" value="1" style="width:2em;"/><br>
 			<p>
 				Gamma: <input id="gamma-value" type="text" value="1" style="width:2em;"/><br>
 				blue line: no change in image.<br>

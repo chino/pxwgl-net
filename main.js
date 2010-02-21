@@ -183,6 +183,10 @@
 		{
 			gl.uniform1f(shaderProgram.pointSizeUniform, this.value);
 		}
+		document.getElementById('front-face').onchange = function()
+		{
+			gl.frontFace({ cw: gl.CW, ccw: gl.CCW }[this.value]);
+		}
 		var gamma_drag = false;
 		document.getElementById("gamma-canvas").onmousedown = function(event)
 		{

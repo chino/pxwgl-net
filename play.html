@@ -41,6 +41,7 @@
 	uniform mat4 uMVMatrix;
 	uniform mat4 uPMatrix;
 	uniform float uPointSize;
+	uniform int uTime;
 
 	varying vec4 vColor;
 	varying vec2 vTextureCoord;
@@ -111,7 +112,7 @@
 			Line Width: <input id="line-width" type="text" value="1" style="width:2em;"/><br>
 			Point Size: <input id="point-size" type="text" value="1" style="width:2em;"/><br>
 			<p>
-				Gamma: <input id="gamma-value" type="text" value="1" style="width:2em;"/><br>
+				Gamma: <input id="gamma-value" type="text" value="1" style="width:13em;"/><br>
 				blue line: no change in image.<br>
 				red line: new values for rbga.<br>
 				<canvas id="gamma-canvas" height="255" width="255" style="border:1px solid black;"></canvas><br>

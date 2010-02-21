@@ -41,6 +41,7 @@
 		shaderProgram.mvMatrixUniform    = gl.getUniformLocation(shaderProgram, "uMVMatrix");
 		shaderProgram.samplerUniform     = gl.getUniformLocation(shaderProgram, "uSampler");
 		shaderProgram.pointSizeUniform   = gl.getUniformLocation(shaderProgram, "uPointSize");
+		shaderProgram.timeUniform        = gl.getUniformLocation(shaderProgram, "uTime");
 	}
 
 	var enable_texturing = function()
@@ -182,6 +183,29 @@
 		{
 			gl.uniform1f(shaderProgram.pointSizeUniform, this.value);
 		}
+		var gamma_drag = false;
+		document.getElementById("gamma-canvas").onmousedown = function(event)
+		{
+			gamma_drag = true;
+			var old_val = event.clientX - this.offsetLeft;
+			var new_val = 255-(event.clientY-this.offsetTop); // flip y axis
+			var gamma   = Math.log( old_val/255 ) / Math.log( new_val/255 )
+			document.getElementById('gamma-value').value = gamma;
+			Gamma.build( gamma );
+			Images.reset();
+		}
+		document.getElementById("gamma-canvas").onmouseup  = function(event){ gamma_drag = false; }
+		document.getElementById("gamma-canvas").onmouseout = function(event){ gamma_drag = false; }
+		document.getElementById("gamma-canvas").onmousemove =function(event)
+		{
+			if(!gamma_drag){ return; }
+			var old_val = event.clientX - this.offsetLeft;
+			var new_val = 255-(event.clientY-this.offsetTop); // flip y axis
+			var gamma   = Math.log( old_val/255 ) / Math.log( new_val/255 )
+			document.getElementById('gamma-value').value = gamma;
+			Gamma.build( gamma );
+			Images.reset();
+		}
 	}
 
 	var init = function() 
@@ -231,6 +255,8 @@
 		gl.activeTexture(gl.TEXTURE0);
 		gl.bindTexture(gl.TEXTURE_2D, texture.texture);
 		gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+		gl.uniform1i(shaderProgram.timeUniform, (new Date()).getTime());
 
 		setMatrixUniforms();
 		gl.drawArrays(render_mode, 0, triangleVertexPositionBuffer.numItems);

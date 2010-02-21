@@ -44,20 +44,32 @@
 		shaderProgram.timeUniform        = gl.getUniformLocation(shaderProgram, "uTime");
 	}
 
-	var enable_texturing = function()
-	{
-		gl.detachShader(shaderProgram,fragmentShaderColorOnly);
-		gl.attachShader(shaderProgram,fragmentShader);
-		gl.linkProgram(shaderProgram);
-		if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)){alert("Could not initialise shaders");}
-	}
-
-	var disable_texturing = function()
-	{
-		gl.detachShader(shaderProgram,fragmentShader);
-		gl.attachShader(shaderProgram,fragmentShaderColorOnly);
-		gl.linkProgram(shaderProgram);
-		if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)){alert("Could not initialise shaders");}
+	var textures = 
+	{	
+		init: function()
+		{
+			texture = Images.get(level.textures[0]);
+			texture.image.style.width = '200px';
+			texture.canvas.style.width = '200px';
+			document.body.appendChild(texture.image);
+			document.body.appendChild(texture.canvas);
+		},
+		enable: function()
+		{
+			gl.detachShader(shaderProgram,fragmentShaderColorOnly);
+			gl.attachShader(shaderProgram,fragmentShader);
+			gl.linkProgram(shaderProgram);
+			if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS))
+				{alert("Could not initialise shaders");}
+		},
+		disable: function()
+		{
+			gl.detachShader(shaderProgram,fragmentShader);
+			gl.attachShader(shaderProgram,fragmentShaderColorOnly);
+			gl.linkProgram(shaderProgram);
+			if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS))
+				{alert("Could not initialise shaders");}
+		}
 	}
 
 	var setMatrixUniforms = function() 
@@ -70,34 +82,34 @@
 	{
 		triangleVertexPositionBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
-		gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(vertices), gl.STATIC_DRAW);
+		gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(level.vertices), gl.STATIC_DRAW);
 		triangleVertexPositionBuffer.itemSize = 3;
-		triangleVertexPositionBuffer.numItems = vertices.length/3;
+		triangleVertexPositionBuffer.numItems = level.vertices.length/3;
 
 		triangleVertexColorBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexColorBuffer);
-		gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(colors), gl.STATIC_DRAW);
+		gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(level.colors), gl.STATIC_DRAW);
 		triangleVertexColorBuffer.itemSize = 4;
-		triangleVertexColorBuffer.numItems = colors.length/4;
+		triangleVertexColorBuffer.numItems = level.colors.length/4;
 
 		triangleVertexTCordBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexTCordBuffer);
-		gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(tcords), gl.STATIC_DRAW);
+		gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(level.tcords), gl.STATIC_DRAW);
 		triangleVertexTCordBuffer.itemSize = 2;
-		triangleVertexTCordBuffer.numItems = tcords.length/2;
+		triangleVertexTCordBuffer.numItems = level.tcords.length/2;
 	}
 
 	var init_info = function()
 	{
-		var verts = vertices.length/3;
+		var verts = level.vertices.length/3;
 		document.getElementById('level-verts').innerHTML = verts;
 		document.getElementById('level-triangles').innerHTML = verts/3;
-		document.getElementById('level-tcords').innerHTML = tcords.length/2;
+		document.getElementById('level-tcords').innerHTML = level.tcords.length/2;
 		var unique = {};
 		var count = 0;
-		for(var x=0; x<vertices.length; x+=3)
+		for(var x=0; x<level.vertices.length; x+=3)
 		{
-			var vert = ""+vertices[x]+vertices[x+1]+vertices[x+2];
+			var vert = ""+level.vertices[x]+level.vertices[x+1]+level.vertices[x+2];
 			if(!unique[vert]){count++;}
 			unique[vert] = true;
 		}
@@ -136,39 +148,20 @@
 		document.onkeyup = keyboard.release;
 	}
 
-	var init_textures = function()
-	{
-		texture = Images.get("http://fly.thruhere.net/download/projectx/"+textures[0]);
-		texture.image.style.width = '200px';
-		texture.canvas.style.width = '200px';
-		document.body.appendChild(texture.image);
-		document.body.appendChild(texture.canvas);
-	}
-
 	var init_ui = function()
 	{
-		textures_enabled = true;
 		document.getElementById('texture-button').onclick = function()
 		{
-			this.value = this.value == 'Disable' ? 'Enable' : 'Disable';
-			textures_enabled = !textures_enabled;
-			if(textures_enabled)
-			{
-				enable_texturing();
-			}
-			else
-			{
-				disable_texturing();
-			}
+			textures[ this.checked ? 'enable' : 'disable' ]();
+		}
+		document.getElementById('culling').onclick = function()
+		{
+			gl[ this.checked ? 'enable' : 'disable' ](gl.CULL_FACE);
 		}
 		render_mode = gl.TRIANGLES;
 		document.getElementById('rendermode-dropdown').onchange = function()
                 {
-			render_mode = {
-				triangles: gl.TRIANGLES,
-				lines: gl.LINES,
-				points: gl.POINTS
-			}[this.value];
+			render_mode = gl[this.value.toUpperCase()];
                 }
 		document.getElementById('gamma-value').onkeypress = function()
 		{
@@ -222,7 +215,7 @@
 		init_buffers();
 		init_camera();
 		init_inputs();
-		init_textures();
+		textures.init();
 		setInterval(draw, 1);
 	}
 

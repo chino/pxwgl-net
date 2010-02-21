@@ -1,11 +1,11 @@
-var textures = [
-'data/textures/spacea.png',
-'data/textures/spaced.png',
-'data/textures/spacec.png',
-'data/textures/spaceb.png'
-];
 
-var tcords = [
+var level = 
+{
+
+textures: [ 'spacea.png', 'spaced.png', 'spacec.png', 'spaceb.png' ],
+
+tcords: [
+
 0.875,0.875,
 1.0,0.875,
 1.0,0.75,
@@ -8952,9 +8952,9 @@ var tcords = [
 0.25,0.375,
 0.375,0.25,
 0.375,0.375
-];
+],
 
-var colors = [
+colors: [
 
 0.137255,0.137255,0.137255,1.0,
 1.0,0.239216,0.0,1.0,
@@ -17903,9 +17903,9 @@ var colors = [
 0.235294,0.235294,0.235294,1.0,
 0.235294,0.235294,0.235294,1.0
 
-]; // colors
+], // colors
 
-var vertices = [
+vertices: [
 
 783.1,-2043.2,3840.0,
 1039.1,-2043.2,3840.0,
@@ -26854,6 +26854,8 @@ var vertices = [
 1536.0,-1787.2,2048.0,
 1536.0,-1787.2,1792.0
 
-]; // vertices
+] // vertices
+
+} // level
 
 

@@ -1,6 +1,7 @@
 
 var Images = 
 {
+	path: "http://fly.thruhere.net/download/projectx/data/textures/",
 	images: {},
 	reset: function()
 	{
@@ -11,6 +12,7 @@ var Images =
 	},
 	get: function(src)
 	{
+		src = this.path+src;
 		if(this.images[src]) { return this.images[src]; }
 		this.images[src] = {
 			src: src,

@@ -4,40 +4,53 @@
 <title>Forsaken Ship Level</title>
 <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 
-<script id="shader-fs-color-only" type="x-shader/x-fragment">
-	varying vec4 vColor;
-	void main(void)
-	{
-		gl_FragColor = vColor;
-	}
-</script>
-
 <script id="shader-fs" type="x-shader/x-fragment">
 	varying vec4 vColor;
 	varying vec2 vTextureCoord;
 	uniform sampler2D uSampler;
 	uniform bool uEnableVertexColors;
+	uniform bool uEnableTexturing;
+	uniform bool uEnableAlphaTest;
+
+	// alpha test - ignore fragement if pixel alpha is less than ref (transparency)
+	bool alpha_test( float alpha )
+	{
+		float ref = 191.0;
+		return (alpha < (ref/255.0));
+	}
 
 	void main(void)
 	{
-		// get texture pixel value
-		vec4 pixel = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
-		// alpha test - ignore fragement if pixel alpha is less than ref (transparency)
-		float ref = 191.0;
-		if(pixel[3] < (ref/255.0))
+		if(uEnableTexturing)
 		{
-			discard;
-			return;
+			vec4 pixel = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+			if(uEnableAlphaTest && alpha_test(pixel[3]))
+			{
+				discard;
+				return;
+			}
+			// blend vertex color with texture
+			if(uEnableVertexColors)
+			{
+				gl_FragColor = vColor * pixel;
+			}
+			// only use texture color
+			else
+			{
+				gl_FragColor = pixel;
+			}
 		}
-		if(uEnableVertexColors)
-		{
-			// blend color with pixel value
-			gl_FragColor = vColor * pixel;
-		}
+		// no texturing
 		else
 		{
-			// only use the pixel color
-			gl_FragColor = pixel;
+			// no color
+			if(!uEnableVertexColors)
+			{
+				discard;
+				return;
+			}
+			// color
+			gl_FragColor = vColor;
 		}
 	}
 </script>
@@ -112,7 +125,8 @@
 			<p><b>Settings:</b></p>
 			Textures: <input id="texture-button" type="checkbox" checked="true"/><br>
 			Culling: <input id="culling" type="checkbox" checked="true"/><br>
-			Vertex Colors: <input id="vertex-colors" type="checkbox"/><br>
+			Alpha Test: <input id="alpha-test" type="checkbox" checked="true"/><br>
+			Vertex Colors: <input id="vertex-colors" type="checkbox" checked="true"/><br>
 			Front Face: 
 			<select id="front-face">
 				<option value="cw">Clock Wise</option>

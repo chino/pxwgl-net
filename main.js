@@ -7,7 +7,6 @@
 	var init_shaders = function()
 	{
 		fragmentShader = getShader(gl, "shader-fs");
-		fragmentShaderColorOnly = getShader(gl, "shader-fs-color-only");
 		vertexShader = getShader(gl, "shader-vs");
 
 		shaderProgram = gl.createProgram();
@@ -15,7 +14,8 @@
 		gl.attachShader(shaderProgram, fragmentShader);
 
 		gl.linkProgram(shaderProgram);
-		if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)){alert("Could not initialise shaders");}
+		if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS))
+			{alert("Could not initialise shaders");}
 
 		gl.useProgram(shaderProgram);
 
@@ -42,7 +42,15 @@
 		shaderProgram.samplerUniform     = gl.getUniformLocation(shaderProgram, "uSampler");
 		shaderProgram.pointSizeUniform   = gl.getUniformLocation(shaderProgram, "uPointSize");
 		shaderProgram.timeUniform        = gl.getUniformLocation(shaderProgram, "uTime");
+
 		shaderProgram.enableVertexColorsUniform = gl.getUniformLocation(shaderProgram, "uEnableVertexColors");
+		gl.uniform1i(shaderProgram.enableVertexColorsUniform, true);
+
+		shaderProgram.enableTexturingUniform = gl.getUniformLocation(shaderProgram, "uEnableTexturing");
+		gl.uniform1i(shaderProgram.enableTexturingUniform, true);
+
+		shaderProgram.enableAlphaTestUnifomr = gl.getUniformLocation(shaderProgram, "uEnableAlphaTest");
+		gl.uniform1i(shaderProgram.enableAlphaTestUniform, true);
 	}
 
 	var textures = 
@@ -54,22 +62,6 @@
 			texture.canvas.style.width = '200px';
 			document.body.appendChild(texture.image);
 			document.body.appendChild(texture.canvas);
-		},
-		enable: function()
-		{
-			gl.detachShader(shaderProgram,fragmentShaderColorOnly);
-			gl.attachShader(shaderProgram,fragmentShader);
-			gl.linkProgram(shaderProgram);
-			if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS))
-				{alert("Could not initialise shaders");}
-		},
-		disable: function()
-		{
-			gl.detachShader(shaderProgram,fragmentShader);
-			gl.attachShader(shaderProgram,fragmentShaderColorOnly);
-			gl.linkProgram(shaderProgram);
-			if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS))
-				{alert("Could not initialise shaders");}
 		}
 	}
 
@@ -149,12 +141,15 @@
 		document.onkeyup = keyboard.release;
 	}
 
-	var vertex_colors_enabled = true;
 	var init_ui = function()
 	{
 		document.getElementById('texture-button').onclick = function()
 		{
-			textures[ this.checked ? 'enable' : 'disable' ]();
+			gl.uniform1i(shaderProgram.enableTexturingUniform, this.checked);
+		}
+		document.getElementById('alpha-test').onclick = function()
+		{
+			gl.uniform1i(shaderProgram.enableAlphaTestUniform, this.checked);
 		}
 		document.getElementById('culling').onclick = function()
 		{
@@ -162,7 +157,7 @@
 		}
 		document.getElementById('vertex-colors').onclick = function()
 		{
-			vertex_colors_enabled = this.checked;
+			gl.uniform1i(shaderProgram.enableVertexColorsUniform, this.checked);
 		}
 		render_mode = gl.TRIANGLES;
 		document.getElementById('rendermode-dropdown').onchange = function()
@@ -260,7 +255,6 @@
 		gl.uniform1i(shaderProgram.samplerUniform, 0);
 
 		gl.uniform1i(shaderProgram.timeUniform, (new Date()).getTime());
-		gl.uniform1i(shaderProgram.enableVertexColorsUniform, vertex_colors_enabled);
 
 		setMatrixUniforms();
 		gl.drawArrays(render_mode, 0, triangleVertexPositionBuffer.numItems);

@@ -1,4 +1,6 @@
 
+	var current_fovy = 70;
+
 	var log = function(str)
 	{
 		document.getElementById('log').innerHTML += str + "<br>";
@@ -145,6 +147,7 @@
 	{
 		document.getElementById('fovy').onkeypress = function()
 		{
+			current_fovy = this.value;
 			_gl.perspective(this.value, 1.0, 10.0, 100000.0);
 		}
 		document.getElementById('texture-button').onclick = function()

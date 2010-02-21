@@ -42,7 +42,6 @@ var Images =
 					data.data[offset]   = Gamma.table[data.data[offset]];    // red
 					data.data[offset+1] = Gamma.table[data.data[offset+1]];  // green
 					data.data[offset+2] = Gamma.table[data.data[offset+2]];  // blue
-					data.data[offset+3] = Gamma.table[data.data[offset+3]];  // alpha
 					
 					// if color is black set alpha to 0 for alpha test to make transparent
 					if(r+g+b == 0) { data.data[offset+3] = 0; }

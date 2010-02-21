@@ -42,6 +42,7 @@
 		shaderProgram.samplerUniform     = gl.getUniformLocation(shaderProgram, "uSampler");
 		shaderProgram.pointSizeUniform   = gl.getUniformLocation(shaderProgram, "uPointSize");
 		shaderProgram.timeUniform        = gl.getUniformLocation(shaderProgram, "uTime");
+		shaderProgram.enableVertexColorsUniform = gl.getUniformLocation(shaderProgram, "uEnableVertexColors");
 	}
 
 	var textures = 
@@ -148,6 +149,7 @@
 		document.onkeyup = keyboard.release;
 	}
 
+	var vertex_colors_enabled = true;
 	var init_ui = function()
 	{
 		document.getElementById('texture-button').onclick = function()
@@ -157,6 +159,10 @@
 		document.getElementById('culling').onclick = function()
 		{
 			gl[ this.checked ? 'enable' : 'disable' ](gl.CULL_FACE);
+		}
+		document.getElementById('vertex-colors').onclick = function()
+		{
+			vertex_colors_enabled = this.checked;
 		}
 		render_mode = gl.TRIANGLES;
 		document.getElementById('rendermode-dropdown').onchange = function()
@@ -254,6 +260,7 @@
 		gl.uniform1i(shaderProgram.samplerUniform, 0);
 
 		gl.uniform1i(shaderProgram.timeUniform, (new Date()).getTime());
+		gl.uniform1i(shaderProgram.enableVertexColorsUniform, vertex_colors_enabled);
 
 		setMatrixUniforms();
 		gl.drawArrays(render_mode, 0, triangleVertexPositionBuffer.numItems);

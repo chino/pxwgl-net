@@ -16,6 +16,7 @@
 	varying vec4 vColor;
 	varying vec2 vTextureCoord;
 	uniform sampler2D uSampler;
+	uniform bool uEnableVertexColors;
 
 	void main(void)
 	{
@@ -28,8 +29,16 @@
 			discard;
 			return;
 		}
-		// blend color with pixel value
-		gl_FragColor = vColor * pixel;
+		if(uEnableVertexColors)
+		{
+			// blend color with pixel value
+			gl_FragColor = vColor * pixel;
+		}
+		else
+		{
+			// only use the pixel color
+			gl_FragColor = pixel;
+		}
 	}
 </script>
 
@@ -103,6 +112,7 @@
 			<p><b>Settings:</b></p>
 			Textures: <input id="texture-button" type="checkbox" checked="true"/><br>
 			Culling: <input id="culling" type="checkbox" checked="true"/><br>
+			Vertex Colors: <input id="vertex-colors" type="checkbox"/><br>
 			Front Face: 
 			<select id="front-face">
 				<option value="cw">Clock Wise</option>

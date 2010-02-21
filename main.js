@@ -143,6 +143,10 @@
 
 	var init_ui = function()
 	{
+		document.getElementById('fovy').onkeypress = function()
+		{
+			_gl.perspective(this.value, 1.0, 10.0, 100000.0);
+		}
 		document.getElementById('texture-button').onclick = function()
 		{
 			gl.uniform1i(shaderProgram.enableTexturingUniform, this.checked);

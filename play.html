@@ -21,14 +21,14 @@
 
 	void main(void)
 	{
+		vec4 pixel = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+		if(uEnableAlphaTest && alpha_test(pixel[3]))
+		{
+			discard;
+			return;
+		}
 		if(uEnableTexturing)
 		{
-			vec4 pixel = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
-			if(uEnableAlphaTest && alpha_test(pixel[3]))
-			{
-				discard;
-				return;
-			}
 			// blend vertex color with texture
 			if(uEnableVertexColors)
 			{

@@ -148,7 +148,12 @@
 
 	var init_ui = function()
 	{
-		document.getElementById('fovy').onkeypress = function()
+		mouse_accell = 3;
+		document.getElementById('mouse-accell').onkeyup = function()
+		{
+			mouse_accell = this.value;
+		}
+		document.getElementById('fovy').onkeyup = function()
 		{
 			current_fovy = this.value;
 			_gl.perspective(this.value, 1.0, 10.0, 100000.0);
@@ -178,16 +183,16 @@
                 {
 			render_mode = gl[this.value.toUpperCase()];
                 }
-		document.getElementById('gamma-value').onkeypress = function()
+		document.getElementById('gamma-value').onkeyup = function()
 		{
 			Gamma.build(this.value);
 			Images.reset();
 		}
-		document.getElementById('line-width').onkeypress = function()
+		document.getElementById('line-width').onkeyup = function()
 		{
 			gl.lineWidth(this.value);
 		}
-		document.getElementById('point-size').onkeypress = function()
+		document.getElementById('point-size').onkeyup = function()
 		{
 			gl.uniform1f(shaderProgram.pointSizeUniform, this.value);
 		}
@@ -239,7 +244,7 @@
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
 		var xy = mouse.get();
-		camera.rotate(xy.x,xy.y,0);
+		camera.rotate(xy.x*mouse_accell,xy.y*mouse_accell,0);
 		camera.move(movement);
 		camera.place_camera();
 

@@ -45,13 +45,16 @@
 		shaderProgram.pointSizeUniform   = gl.getUniformLocation(shaderProgram, "uPointSize");
 		shaderProgram.timeUniform        = gl.getUniformLocation(shaderProgram, "uTime");
 
+		shaderProgram.enableAcidUniform = gl.getUniformLocation(shaderProgram, "uEnableAcid");
+		gl.uniform1i(shaderProgram.enableAcidUniform, false);
+
 		shaderProgram.enableVertexColorsUniform = gl.getUniformLocation(shaderProgram, "uEnableVertexColors");
 		gl.uniform1i(shaderProgram.enableVertexColorsUniform, true);
 
 		shaderProgram.enableTexturingUniform = gl.getUniformLocation(shaderProgram, "uEnableTexturing");
 		gl.uniform1i(shaderProgram.enableTexturingUniform, true);
 
-		shaderProgram.enableAlphaTestUnifomr = gl.getUniformLocation(shaderProgram, "uEnableAlphaTest");
+		shaderProgram.enableAlphaTestUniform = gl.getUniformLocation(shaderProgram, "uEnableAlphaTest");
 		gl.uniform1i(shaderProgram.enableAlphaTestUniform, true);
 	}
 
@@ -149,6 +152,10 @@
 		{
 			current_fovy = this.value;
 			_gl.perspective(this.value, 1.0, 10.0, 100000.0);
+		}
+		document.getElementById('acid').onclick = function()
+		{
+			gl.uniform1i(shaderProgram.enableAcidUniform, this.checked);
 		}
 		document.getElementById('texture-button').onclick = function()
 		{

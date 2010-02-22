@@ -5,6 +5,7 @@
 <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 
 <script id="shader-fs" type="x-shader/x-fragment">
+	varying int vTime;
 	varying vec4 vColor;
 	varying vec2 vTextureCoord;
 	uniform sampler2D uSampler;
@@ -66,6 +67,7 @@
 	uniform int   uTime;
 	uniform bool  uEnableAcid;
 
+	varying int vTime;
 	varying vec4 vColor;
 	varying vec2 vTextureCoord;
 
@@ -92,6 +94,7 @@
 		gl_PointSize = uPointSize;
 
 		// pass values to the fragment shader
+		vTime = uTime;
 		vColor = aVertexColor;
 		vTextureCoord = aTextureCoord;
 	}

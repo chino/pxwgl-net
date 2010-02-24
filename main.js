@@ -65,8 +65,13 @@
 			texture = Images.get(level.textures[0]);
 			texture.image.style.width = '200px';
 			texture.canvas.style.width = '200px';
-			document.body.appendChild(texture.image);
-			document.body.appendChild(texture.canvas);
+			var dom = document.getElementById('textures');
+			texture.image.style.margin = '0.5em';
+			texture.image.style.display = 'block';
+			texture.canvas.style.margin = '0.5em';
+			texture.canvas.style.display = 'block';
+			dom.appendChild(texture.image);
+			dom.appendChild(texture.canvas);
 		}
 	}
 

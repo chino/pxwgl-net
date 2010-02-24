@@ -1,13 +1,9 @@
 var GL = function(canvas)
 {
-	try {
-		this.gl = canvas.getContext("experimental-webgl");
-	} catch(e) {
-	}
+	try { this.gl = canvas.getContext("experimental-webgl"); } 
+		catch(e) { log(e); }
 	if (!this.gl) 
-	{
-		alert("Could not initialise WebGL, sorry :-(");
-	}
+		{ return log("Could not initialise WebGL, sorry :-("); }
 	this.loadIdentity();
 	this.perspective(70,1.0,10.0,100.0);
 	this.__noSuchMethod__ = function(id,args){

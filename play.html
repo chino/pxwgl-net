@@ -1,105 +1,9 @@
 <html>
 <head>
-
-<title>Forsaken Ship Level</title>
+<title>ProjectX WebGL Demo</title>
 <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 
-<script id="shader-fs" type="x-shader/x-fragment">
-	varying int vTime;
-	varying vec4 vColor;
-	varying vec2 vTextureCoord;
-	uniform sampler2D uSampler;
-	uniform bool uEnableVertexColors;
-	uniform bool uEnableTexturing;
-	uniform bool uEnableAlphaTest;
-
-	// alpha test - ignore fragement if pixel alpha is less than ref (transparency)
-	bool alpha_test( float alpha )
-	{
-		float ref = 191.0;
-		return (alpha < (ref/255.0));
-	}
-
-	void main(void)
-	{
-		vec4 pixel = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
-		if(uEnableAlphaTest && alpha_test(pixel[3]))
-		{
-			discard;
-			return;
-		}
-		if(uEnableTexturing)
-		{
-			// blend vertex color with texture
-			if(uEnableVertexColors)
-			{
-				gl_FragColor = vColor * pixel;
-			}
-			// only use texture color
-			else
-			{
-				gl_FragColor = pixel;
-			}
-		}
-		// no texturing
-		else
-		{
-			// no color
-			if(!uEnableVertexColors)
-			{
-				discard;
-				return;
-			}
-			// color
-			gl_FragColor = vColor;
-		}
-	}
-</script>
-
-<script id="shader-vs" type="x-shader/x-vertex">
-	attribute vec3 aVertexPosition;
-	attribute vec4 aVertexColor;
-	attribute vec2 aTextureCoord;
-
-	uniform mat4  uMVMatrix;
-	uniform mat4  uPMatrix;
-	uniform float uPointSize;
-	uniform int   uTime;
-	uniform bool  uEnableAcid;
-
-	varying int vTime;
-	varying vec4 vColor;
-	varying vec2 vTextureCoord;
-
-	void main(void)
-	{
-		vec4 position = vec4(aVertexPosition,1.0);
-
-		// the acid effect !!!
-		if(uEnableAcid)
-		{
-			float time = float(uTime) * 0.001;
-			position += vec4(
-				sin(time * 2.0 + position.x)*20,
-				sin(time * 3.0 + position.y)*20,
-				sin(time * 5.0 + position.z)*20,
-				0.0
-			);
-		}
-
-		// apply perspective and model view matrixes to vertex position
-		gl_Position = uPMatrix * uMVMatrix * position;
-
-		// size of points
-		gl_PointSize = uPointSize;
-
-		// pass values to the fragment shader
-		vTime = uTime;
-		vColor = aVertexColor;
-		vTextureCoord = aTextureCoord;
-	}
-</script>
-
+<script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="ship.js"></script>
 <script type="text/javascript" src="gamma.js"></script>
 <script type="text/javascript" src="fps.js"></script>
@@ -115,14 +19,6 @@
 <script type="text/javascript" src="mouse.js"></script>
 <script type="text/javascript" src="main.js"></script>
 
-<script type="text/javascript">
-	var toggle = function(id)
-	{
-		var el = document.getElementById(id);
-		el.style.display = (el.style.display == 'none') ? 'block' : 'none';
-	}
-</script>
-
 <style type="text/css">
 	body > div, body > canvas { display:block; float:left; margin:0.5em; border:1px solid black; }
 	.button { color:white; cursor:pointer; display:block; background:gray; border-bottom:1px solid black; text-align:center; }
@@ -133,12 +29,12 @@
 </style>
 
 </head>
-<body onload="init();">
+<body>
 	
 	<canvas id="lesson02-canvas" width="800" height="800"></canvas>
 
 	<div>
-		<b class="button" onclick="toggle('info-body')">Info</b>
+		<b class="button" onclick="$('#info-body').toggle()">Info</b>
 		<div class="body" id="info-body">
 			<div><b>FPS:</b> <span id="fps">0</span></div>
 			<div><b>Position:</b> <span id="pos">0,0,0</span></div>
@@ -152,7 +48,7 @@
 	</div>
 
 	<div>
-		<b class="button" onclick="toggle('controls-body')">Controls</b>
+		<b class="button" onclick="$('#controls-body').toggle()">Controls</b>
 		<div class="body" id="controls-body">
 			<b>Keys</b>
 			<div style="padding-left:1em;">
@@ -171,7 +67,7 @@
 	</div>
 
 	<div>
-		<b class="button" onclick="toggle('settings-body')">Settings</b>
+		<b class="button" onclick="$('#settings-body').toggle()">Settings</b>
 		<div class="body" id="settings-body">
 			<div style="float:left;">
 				Acid: <input id="acid" type="checkbox"/><br>
@@ -207,18 +103,18 @@
 	</div>
 
 	<div>
-		<b class="button" onclick="toggle('vertex-shader')">Vertex Shader</b>
+		<b class="button" onclick="$('#vertex-shader').toggle()">Vertex Shader</b>
 		<textarea class="body" id="vertex-shader" type="text" rows="30" cols="80"></textarea>
 	</div>
 
 	<div>
-		<b class="button" onclick="toggle('fragment-shader')">Fragement Shader</b>
+		<b class="button" onclick="$('#fragment-shader').toggle()">Fragement Shader</b>
 		<textarea class="body" id="fragment-shader" type="text" rows="30" cols="80"></textarea>
 	</div>
 
 	<div style="clear:both">
-		<b class="button" onclick="toggle('log')">Logs</b>
-		<div id="log">
+		<b class="button" onclick="$('#log').toggle()">Logs</b>
+		<div class="body" id="log">
 		</div>
 	</div>
 

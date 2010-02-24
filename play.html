@@ -24,6 +24,7 @@
 	.button { color:white; cursor:pointer; display:block; background:gray; border-bottom:1px solid black; text-align:center; }
 	.button:hover { font-style:italic; }
 	.body { padding:0.5em; }
+	.toolbar { padding-bottom:0.5em; margin-bottom:0.5em; border-bottom:1px solid black; }
 	textarea { padding:0; border:none; }
 	canvas { border:medium none; }
 </style>
@@ -90,7 +91,9 @@
 				<br>
 				Line Width: <input id="line-width" type="text" value="1" style="width:2em;"/><br>
 				Point Size: <input id="point-size" type="text" value="1" style="width:2em;"/><br>
-				Perspective: FOVY=<input id="fovy" type="text" value="70.0" style="width:3em;"><br>
+				Perspective: FOVY=<input id="fovy" type="text" value="70.0" style="width:3em;"/><br>
+				Canvas Size: <input id="canvas-width" type="text" value="800" style="width:2em;"/> x 
+						<input id="canvas-height" type="text" value="800" style="width:2em;"/><br>
 				<p>
 					Gamma: <input id="gamma-value" type="text" value="1" style="width:13em;"/><br>
 					blue line: no change in image.<br>
@@ -103,18 +106,34 @@
 	</div>
 
 	<div>
-		<b class="button" onclick="$('#vertex-shader').toggle()">Vertex Shader</b>
-		<textarea class="body" id="vertex-shader" type="text" rows="30" cols="80"></textarea>
+		<b class="button" onclick="$('#vertex-shader-body').toggle()">Vertex Shader</b>
+		<div class="body" id="vertex-shader-body">
+			<div class="toolbar">
+				<input id="vertex-shader-apply" type="button" value="Apply Changes"/>
+				<input id="vertex-shader-reset" type="button" value="Reset Defaults"/>
+			</div>
+			<textarea class="body" id="vertex-shader" type="text" rows="50" cols="90"></textarea>
+		</div>
 	</div>
 
 	<div>
-		<b class="button" onclick="$('#fragment-shader').toggle()">Fragement Shader</b>
-		<textarea class="body" id="fragment-shader" type="text" rows="30" cols="80"></textarea>
+		<b class="button" onclick="$('#fragment-shader-body').toggle()">Fragement Shader</b>
+		<div class="body" id="fragment-shader-body">
+			<div class="toolbar">
+				<input id="fragment-shader-apply" type="button" value="Apply Changes"/>
+				<input id="fragment-shader-reset" type="button" value="Reset Defaults"/>
+			</div>
+			<textarea id="fragment-shader" type="text" rows="50" cols="90"></textarea>
+		</div>
 	</div>
 
 	<div style="clear:both">
-		<b class="button" onclick="$('#log').toggle()">Logs</b>
-		<div class="body" id="log">
+		<b class="button" onclick="$('#log-body').toggle()">Logs</b>
+		<div class="body" id="log-body">
+			<div class="toolbar">
+				<input type="button" value="Clear" onclick="$('#log').empty()"/>
+			</div>
+			<div id="log"></div>
 		</div>
 	</div>
 

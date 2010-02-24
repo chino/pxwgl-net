@@ -13,11 +13,13 @@
 		if(vertexShader)
 			{ gl.detachShader(shaderProgram,vertexShader); }
 		vertexShader = gl.createShader(gl.VERTEX_SHADER);
-		gl.shaderSource(vertexShader, $('#vertex-shader').text());
+		gl.shaderSource(vertexShader, $('#vertex-shader').val());
 		gl.compileShader(vertexShader);
 		if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) 
-		{ 
-			log("Failed to compile vertex shader: "+gl.getShaderInfoLog(vertexShader));
+		{
+			var msg = ("Failed to compile vertex shader: "+gl.getShaderInfoLog(vertexShader));
+			alert(msg);
+			log(msg);
 			return false;
 		}
 		gl.attachShader(shaderProgram, vertexShader);
@@ -29,72 +31,81 @@
 		if(fragmentShader)
 			{ gl.detachShader(shaderProgram,fragmentShader); }
 		fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-		gl.shaderSource(fragmentShader, $('#fragment-shader').text());
+		gl.shaderSource(fragmentShader, $('#fragment-shader').val());
 		gl.compileShader(fragmentShader);
 		if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) 
 		{ 
-			log("Failed to compile fragment shader: "+gl.getShaderInfoLog(fragmentShader)); 
+			var msg = "Failed to compile fragment shader: "+gl.getShaderInfoLog(fragmentShader);
+			alert(msg);
+			log(msg);
 			return false;
 		}
 		gl.attachShader(shaderProgram, fragmentShader);
+		return true;
+	}
+
+// need a state table or something so we reinit to the current state not the default 
+
+	var reinit_uniforms = function()
+	{
+		gl.uniform1i(shaderProgram.enableVertexColorsUniform, true);
+		gl.uniform1i(shaderProgram.enableTexturingUniform, true);
+		gl.uniform1i(shaderProgram.enableAlphaTestUniform, true);
+		gl.uniform1i(shaderProgram.enableAcidUniform, false);
 	}
 
 	var reinit_shaders = function()
 	{
-		reinit_vertex_shader();
-		reinit_fragment_shader();
+		if(!reinit_vertex_shader()){return false;};
+		if(!reinit_fragment_shader()){return false;};
 		gl.linkProgram(shaderProgram);
 		if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS))
 			{ return log("Could not link fragmentShader"); }
 		gl.useProgram(shaderProgram);
+		reinit_uniforms();
+		return true;
+	}
+
+	var init_shader_handles = function()
+	{
+		shaderProgram.vertexPositionAttribute = gl.getAttribLocation( shaderProgram, "aVertexPosition");
+		if(shaderProgram.vertexPositionAttribute >= 0)
+			{ gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute); }
+
+		shaderProgram.vertexColorAttribute = gl.getAttribLocation( shaderProgram , "aVertexColor");
+		if(shaderProgram.vertexColorAttribute >= 0)
+			{ gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute); }
+
+		shaderProgram.vertexCoordAttribute = gl.getAttribLocation( shaderProgram , "aTextureCoord");
+		if(shaderProgram.vertexCoordAttribute >= 0)
+			{ gl.enableVertexAttribArray(shaderProgram.vertexCoordAttribute); }
+
+		shaderProgram.enableVertexColorsUniform = gl.getUniformLocation(shaderProgram, "uEnableVertexColors");
+		shaderProgram.enableTexturingUniform    = gl.getUniformLocation(shaderProgram, "uEnableTexturing");
+		shaderProgram.enableAlphaTestUniform    = gl.getUniformLocation(shaderProgram, "uEnableAlphaTest");
+
+		shaderProgram.samplerUniform     = gl.getUniformLocation(shaderProgram, "uSampler");
+		shaderProgram.pointSizeUniform   = gl.getUniformLocation(shaderProgram, "uPointSize");
+		shaderProgram.pMatrixUniform     = gl.getUniformLocation(shaderProgram, "uPMatrix");
+		shaderProgram.mvMatrixUniform    = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+		shaderProgram.timeUniform        = gl.getUniformLocation(shaderProgram, "uTime");
+		shaderProgram.enableAcidUniform  = gl.getUniformLocation(shaderProgram, "uEnableAcid");
+
+		reinit_uniforms();
 	}
 
 	var init_shaders = function()
 	{
 		shaderProgram = gl.createProgram();
-
-		var init_handles = function()
-		{
-			shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
-	
-			shaderProgram.enableVertexColorsUniform = gl.getUniformLocation(shaderProgram, "uEnableVertexColors");
-			gl.uniform1i(shaderProgram.enableVertexColorsUniform, true);
-
-			shaderProgram.enableTexturingUniform = gl.getUniformLocation(shaderProgram, "uEnableTexturing");
-			gl.uniform1i(shaderProgram.enableTexturingUniform, true);
-	
-			shaderProgram.enableAlphaTestUniform = gl.getUniformLocation(shaderProgram, "uEnableAlphaTest");
-			gl.uniform1i(shaderProgram.enableAlphaTestUniform, true);
-
-			shaderProgram.vertexPositionAttribute = gl.getAttribLocation( shaderProgram, "aVertexPosition");
-			if(shaderProgram.vertexPositionAttribute >= 0)
-				{ gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute); }
-
-			shaderProgram.vertexColorAttribute = gl.getAttribLocation( shaderProgram , "aVertexColor");
-			if(shaderProgram.vertexColorAttribute >= 0)
-				{ gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute); }
-
-			shaderProgram.vertexCoordAttribute = gl.getAttribLocation( shaderProgram , "aTextureCoord");
-			if(shaderProgram.vertexCoordAttribute >= 0)
-				{ gl.enableVertexAttribArray(shaderProgram.vertexCoordAttribute); }
-
-			shaderProgram.pointSizeUniform   = gl.getUniformLocation(shaderProgram, "uPointSize");
-			shaderProgram.pMatrixUniform     = gl.getUniformLocation(shaderProgram, "uPMatrix");
-			shaderProgram.mvMatrixUniform    = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-			shaderProgram.timeUniform        = gl.getUniformLocation(shaderProgram, "uTime");
-
-			shaderProgram.enableAcidUniform = gl.getUniformLocation(shaderProgram, "uEnableAcid");
-			gl.uniform1i(shaderProgram.enableAcidUniform, false);
-		}
-
 		$.get( "vertex_shader.glsl", function(str)
 		{
-			$("#vertex-shader").text(str);
+			$("#vertex-shader").val(str);
 			$.get( "fragment_shader.glsl", function(str)
 			{
-				$("#fragment-shader").text(str);
-				reinit_shaders();
-				init_handles();
+				$("#fragment-shader").val(str);
+				if(!reinit_shaders()) 
+					{ return log("failed to init shaders"); }
+				init_shader_handles();
 				drawOK = true;
 			});
 		});
@@ -195,6 +206,22 @@
 
 	var init_ui = function()
 	{
+		$('#vertex-shader-apply').click(reinit_shaders);
+		$('#vertex-shader-reset').click(function(){
+			$.get( "vertex_shader.glsl", function(str) { 
+				$("#vertex-shader").val(str); 
+				reinit_shaders();
+			});
+		});
+
+		$('#fragment-shader-apply').click(reinit_shaders);
+		$('#fragment-shader-reset').click(function(){
+			$.get( "fragment_shader.glsl", function(str) { 
+				$("#fragment-shader").val(str);
+				reinit_shaders();
+			});
+		});
+
 		mouse_accell = 3;
 		$('#mouse-accell').keyup(function()
 		{
@@ -247,6 +274,14 @@
 		$('#front-face').change(function()
 		{
 			gl.frontFace({ cw: gl.CW, ccw: gl.CCW }[this.value]);
+		});
+		$('#canvas-width').keyup(function()
+		{
+			canvas.width = this.value;
+		});
+		$('#canvas-height').keyup(function()
+		{
+			canvas.height = this.value;
 		});
 		$("#gamma-canvas").click(function(e)
 		{

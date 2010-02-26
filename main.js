@@ -200,8 +200,18 @@
 	var init_inputs = function()
 	{
 		mouse = new Mouse(canvas);
-		$(document).keydown(function(e){ keyboard.press(e); });
-		$(document).keyup(function(e){ keyboard.release(e); });
+		var set = function()
+		{
+			document.onkeydown = keyboard.press;
+			document.onkeyup = keyboard.release;
+		}
+		var unset = function()
+		{
+			document.onkeydown = null;
+			document.onkeyup = null;
+		}
+		canvas.onmouseover = set;
+		canvas.onmouseout = unset;
 	}
 
 	var init_ui = function()

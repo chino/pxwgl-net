@@ -5,7 +5,7 @@ var GL = function(canvas)
 	if (!this.gl) 
 		{ return log("Could not initialise WebGL, sorry :-("); }
 	this.loadIdentity();
-	this.perspective(70,1.0,10.0,100.0);
+	this.perspective(70,1.0,10.0,10000.0);
 	this.__noSuchMethod__ = function(id,args){
 	       alert("no: "+id); 
 	}

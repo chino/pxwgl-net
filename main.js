@@ -172,6 +172,9 @@
 		$('#level-verts-unique').html(count);
 	}
 
+	current_far = 10000.0;
+	current_fovy = 70.0;
+
 	var init_gl = function()
 	{
 		canvas = document.getElementById("lesson02-canvas");
@@ -185,7 +188,7 @@
 		gl.frontFace(gl.CW);
 		if(gl.PERSPECTIVE_CORRECTION_HINT)
 			{gl.hint(gl.PERSPECTIVE_CORRECTION_HINT, gl.NICEST);}
-		_gl.perspective(70, 1.0, 10.0, 100.0);
+		_gl.perspective(current_fovy, 1.0, 10.0, current_far);
 	}
 
 	var init_camera = function()
@@ -237,13 +240,11 @@
 		{
 			mouse_accell = this.value;
 		});
-		current_fovy = 70;
 		$('#fovy').keyup(function()
 		{
 			current_fovy = this.value;
 			_gl.perspective(this.value, 1.0, 10.0, current_far);
 		});
-		current_far = 10000.0;
 		$('#far').keyup(function()
 		{
 			current_far = this.value;

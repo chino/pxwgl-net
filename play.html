@@ -32,6 +32,18 @@
 </head>
 <body>
 	
+	<div>
+		<b class="button" onclick="$('#log-body').toggle()">Logs</b>
+		<div class="body" id="log-body">
+			<div class="toolbar">
+				<input type="button" value="Clear" onclick="$('#log').empty()"/>
+			</div>
+			<div id="log"></div>
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+
+
 	<div id="canvas-wrapper" style="padding:1em;">
 		<canvas id="lesson02-canvas" width="500" height="500"></canvas>
 	</div>
@@ -130,16 +142,6 @@
 				<input id="fragment-shader-reset" type="button" value="Reset Defaults"/>
 			</div>
 			<textarea id="fragment-shader" type="text" rows="50" cols="90"></textarea>
-		</div>
-	</div>
-
-	<div style="clear:both">
-		<b class="button" onclick="$('#log-body').toggle()">Logs</b>
-		<div class="body" id="log-body">
-			<div class="toolbar">
-				<input type="button" value="Clear" onclick="$('#log').empty()"/>
-			</div>
-			<div id="log"></div>
 		</div>
 	</div>
 

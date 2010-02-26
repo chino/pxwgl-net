@@ -185,7 +185,7 @@
 		gl.frontFace(gl.CW);
 		if(gl.PERSPECTIVE_CORRECTION_HINT)
 			{gl.hint(gl.PERSPECTIVE_CORRECTION_HINT, gl.NICEST);}
-		_gl.perspective(70, 1.0, 10.0, 100000.0);
+		_gl.perspective(70, 1.0, 10.0, 100.0);
 	}
 
 	var init_camera = function()
@@ -241,7 +241,13 @@
 		$('#fovy').keyup(function()
 		{
 			current_fovy = this.value;
-			_gl.perspective(this.value, 1.0, 10.0, 100000.0);
+			_gl.perspective(this.value, 1.0, 10.0, current_far);
+		});
+		current_far = 10000.0;
+		$('#far').keyup(function()
+		{
+			current_far = this.value;
+			_gl.perspective(current_fovy, 1.0, 10.0, this.value);
 		});
 		$('#acid').click(function()
 		{

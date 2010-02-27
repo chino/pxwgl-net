@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Plot Test</title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+</head>
+<body>
+	<canvas id="canvas" width="500" height="500" style="border:1px solid black;"></canvas>
+	<br>
+	<br> Y = Fog Itensity, top right corner is full fog
+	<br> X = Distance, right is equal to far clipping plane
+	<div id="log"></div>
+
+<script type="text/javascript">
+	var canvas = document.getElementById("canvas");
+	var context = canvas.getContext('2d');
+	context.clearRect(0,0,canvas.width,canvas.height);
+	context.fillStyle = "rgb(100,0,0)";
+
+	var log = function( str ) { document.getElementById('log').innerHTML += "<br>" + str; }
+
+	var fog = function( distance )
+	{
+		// make density stronger with more distance
+		var density = distance * 0.9;
+
+		// multiply distance by density to get the fog strength
+		// square the values making the curve deeper
+		return (distance * distance) * (density * density);
+	}
+
+	for(var x=0; x<canvas.width; x+=1)
+	{	
+		// in opengl z depth is percentage of the fragment distance to the far clipping plane
+		var distance = x/canvas.width; 
+
+		// compute the fog strength
+		var rv = fog(distance);
+
+		// convert the percentage back into canvas distance and flip y axis
+		var y = canvas.height - (canvas.width * rv);
+
+		//
+		context.fillRect(x,y,1,1);
+		log(y);
+	}
+
+	context.save();
+</script>
+
+</body>
+</html>

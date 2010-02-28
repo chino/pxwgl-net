@@ -5,45 +5,50 @@ uniform sampler2D uSampler;
 uniform bool uEnableVertexColors;
 uniform bool uEnableTexturing;
 uniform bool uEnableAlphaTest;
+uniform bool uEnableFog;
+uniform float uFogDensity;
 
-// alpha test - ignore fragement if pixel alpha is less than ref (transparency)
-bool alpha_test( float alpha )
-{
-	float ref = 191.0;
-	return (alpha < (ref/255.0));
-}
+const float LOG2 = 1.442695;
+vec4  fog_color = vec4(1,1,1,0);
 
 void main(void)
 {
+	vec4 frag_color = vec4(0,0,0,1);
 	vec4 pixel = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
-	if(uEnableAlphaTest && alpha_test(pixel[3]))
+
+	if(uEnableAlphaTest)
 	{
-		discard;
-		return;
-	}
-	if(uEnableTexturing)
-	{
-		// blend vertex color with texture
-		if(uEnableVertexColors)
-		{
-			gl_FragColor = vColor * pixel;
-		}
-		// only use texture color
-		else
-		{
-			gl_FragColor = pixel;
-		}
-	}
-	// no texturing
-	else
-	{
-		// no color
-		if(!uEnableVertexColors)
+		float alpha_ref = 191.0;
+		if(pixel[3] < (alpha_ref/255.0))
 		{
 			discard;
 			return;
 		}
-		// color
-		gl_FragColor = vColor;
 	}
+
+	if(uEnableTexturing)
+	{
+		if(uEnableVertexColors)
+		{
+			frag_color = vColor * pixel;
+		}
+		else
+		{
+			frag_color = pixel;
+		}
+	}
+	else if(uEnableVertexColors)
+	{
+		frag_color = vColor;
+	}
+
+	if(uEnableFog)
+	{
+		float z = gl_FragCoord.z / gl_FragCoord.w;
+		float fogFactor = exp2( -uFogDensity * uFogDensity * z *  z * LOG2 );
+		fogFactor = clamp(fogFactor, 0.0, 1.0);
+		frag_color = mix(fog_color, frag_color, fogFactor );
+	}
+
+	gl_FragColor = frag_color;
 }

@@ -52,6 +52,8 @@
 		gl.uniform1i(shaderProgram.enableTexturingUniform, true);
 		gl.uniform1i(shaderProgram.enableAlphaTestUniform, true);
 		gl.uniform1i(shaderProgram.enableAcidUniform, false);
+		gl.uniform1i(shaderProgram.enableFogUniform, false);
+		gl.uniform1f(shaderProgram.fogDensityUniform, 0.0005);
 	}
 
 	var reinit_shaders = function()
@@ -80,16 +82,18 @@
 		if(shaderProgram.vertexCoordAttribute >= 0)
 			{ gl.enableVertexAttribArray(shaderProgram.vertexCoordAttribute); }
 
-		shaderProgram.enableVertexColorsUniform = gl.getUniformLocation(shaderProgram, "uEnableVertexColors");
-		shaderProgram.enableTexturingUniform    = gl.getUniformLocation(shaderProgram, "uEnableTexturing");
-		shaderProgram.enableAlphaTestUniform    = gl.getUniformLocation(shaderProgram, "uEnableAlphaTest");
-
 		shaderProgram.samplerUniform     = gl.getUniformLocation(shaderProgram, "uSampler");
 		shaderProgram.pointSizeUniform   = gl.getUniformLocation(shaderProgram, "uPointSize");
 		shaderProgram.pMatrixUniform     = gl.getUniformLocation(shaderProgram, "uPMatrix");
 		shaderProgram.mvMatrixUniform    = gl.getUniformLocation(shaderProgram, "uMVMatrix");
 		shaderProgram.timeUniform        = gl.getUniformLocation(shaderProgram, "uTime");
 		shaderProgram.enableAcidUniform  = gl.getUniformLocation(shaderProgram, "uEnableAcid");
+		shaderProgram.enableFogUniform   = gl.getUniformLocation(shaderProgram, "uEnableFog");
+		shaderProgram.fogDensityUniform  = gl.getUniformLocation(shaderProgram, "uFogDensity");
+		shaderProgram.enableVertexColorsUniform = gl.getUniformLocation(shaderProgram, "uEnableVertexColors");
+		shaderProgram.enableTexturingUniform    = gl.getUniformLocation(shaderProgram, "uEnableTexturing");
+		shaderProgram.enableAlphaTestUniform    = gl.getUniformLocation(shaderProgram, "uEnableAlphaTest");
+
 
 		reinit_uniforms();
 	}
@@ -249,6 +253,14 @@
 		{
 			current_far = this.value;
 			_gl.perspective(current_fovy, 1.0, 10.0, this.value);
+		});
+		$('#fog').click(function()
+		{
+			gl.uniform1i(shaderProgram.enableFogUniform, this.checked);
+		});
+		$('#fog-density').keyup(function()
+		{
+			gl.uniform1f(shaderProgram.fogDensityUniform, this.value);
 		});
 		$('#acid').click(function()
 		{

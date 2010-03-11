@@ -1,7 +1,7 @@
 
 var Images = 
 {
-	path: "/download/projectx/data/textures/",
+	path: "/download/projectx/",
 	images: {},
 	reset: function()
 	{

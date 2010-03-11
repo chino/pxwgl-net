@@ -118,7 +118,7 @@
 	{	
 		init: function()
 		{
-			texture = Images.get(level.textures[0]);
+			texture = Images.get(level.indices[0][2]);
 			texture.image.style.width = '200px';
 			texture.canvas.style.width = '200px';
 			texture.image.style.margin = '0.5em';
@@ -376,7 +376,7 @@
 
 		for(var i=0; i<level.indices.length; i++)
 		{
-			gl.bindTexture(gl.TEXTURE_2D, Images.get(level.textures[level.indices[i][2]]).texture);
+			gl.bindTexture(gl.TEXTURE_2D, Images.get(level.indices[i][2]).texture);
 			gl.drawArrays(render_mode, level.indices[i][0], level.indices[i][1]);
 		}
 

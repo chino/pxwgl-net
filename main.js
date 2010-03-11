@@ -374,22 +374,11 @@
 		gl.activeTexture(gl.TEXTURE0);
 		gl.uniform1i(shaderProgram.samplerUniform, 0);
 
-		var first = 0;
-		var last_texture = level.texture_indexes[0];
-
-		for(var t=0; t<level.texture_indexes.length+1; t++)
+		for(var i=0; i<level.indices.length; i++)
 		{
-			var current_texture = level.texture_indexes[t];
-			if( last_texture != current_texture )
-			{
-				gl.bindTexture(gl.TEXTURE_2D, Images.get(level.textures[last_texture]).texture);
-				var primitives = t - first;
-				gl.drawArrays(render_mode, first*3, primitives*3);
-				first = t;
-				last_texture = current_texture;
-			}
+			gl.bindTexture(gl.TEXTURE_2D, Images.get(level.textures[level.indices[i][2]]).texture);
+			gl.drawArrays(render_mode, level.indices[i][0], level.indices[i][1]);
 		}
-		
 
 		// update info pain
 		$('#fps').html(fps.run());

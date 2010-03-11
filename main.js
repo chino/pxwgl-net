@@ -94,7 +94,6 @@
 		shaderProgram.enableTexturingUniform    = gl.getUniformLocation(shaderProgram, "uEnableTexturing");
 		shaderProgram.enableAlphaTestUniform    = gl.getUniformLocation(shaderProgram, "uEnableAlphaTest");
 
-
 		reinit_uniforms();
 	}
 
@@ -369,15 +368,28 @@
 			gl.vertexAttribPointer(shaderProgram.vertexCoordAttribute,
 				triangleVertexTCordBuffer.itemSize, gl.FLOAT, false, 0, 0);
 		}
-	
-		gl.activeTexture(gl.TEXTURE0);
-		gl.bindTexture(gl.TEXTURE_2D, texture.texture);
-		gl.uniform1i(shaderProgram.samplerUniform, 0);
-
-		gl.uniform1i(shaderProgram.timeUniform, (new Date()).getTime());
 
 		setMatrixUniforms();
-		gl.drawArrays(render_mode, 0, triangleVertexPositionBuffer.numItems);
+		gl.uniform1i(shaderProgram.timeUniform, (new Date()).getTime());
+		gl.activeTexture(gl.TEXTURE0);
+		gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+		var first = 0;
+		var last_texture = level.texture_indexes[0];
+
+		for(var t=0; t<level.texture_indexes.length+1; t++)
+		{
+			var current_texture = level.texture_indexes[t];
+			if( last_texture != current_texture )
+			{
+				gl.bindTexture(gl.TEXTURE_2D, Images.get(level.textures[last_texture]).texture);
+				var primitives = t - first;
+				gl.drawArrays(render_mode, first*3, primitives*3);
+				first = t;
+				last_texture = current_texture;
+			}
+		}
+		
 
 		// update info pain
 		$('#fps').html(fps.run());

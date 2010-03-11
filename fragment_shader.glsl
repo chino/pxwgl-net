@@ -18,7 +18,7 @@ void main(void)
 
 	if(uEnableAlphaTest)
 	{
-		float alpha_ref = 191.0;
+		float alpha_ref = 240.0;
 		if(pixel[3] < (alpha_ref/255.0))
 		{
 			discard;

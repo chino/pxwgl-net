@@ -118,7 +118,19 @@
 	{	
 		init: function()
 		{
-			texture = Images.get(level.indices[0][2]);
+			textures.preload();
+//			textures.load_example();
+		},
+		preload: function()
+		{
+			for(var x=0; x<level.indices.length; x++)
+			{
+				Images.get(level.indices[x][2]);
+			}
+		},
+		load_example: function()
+		{
+			texture = Images.get(level.indices[5][2]);
 			texture.image.style.width = '200px';
 			texture.canvas.style.width = '200px';
 			texture.image.style.margin = '0.5em';

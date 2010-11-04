@@ -133,27 +133,35 @@
 
 	var setMatrixUniforms = function() 
 	{
-		gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, new WebGLFloatArray(_gl.pMatrix.flatten()));
-		gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, new WebGLFloatArray(_gl.mvMatrix.flatten()));
+		gl.uniformMatrix4fv(
+			shaderProgram.pMatrixUniform, 
+			false, 
+			new Float32Array(_gl.pMatrix.flatten())
+		);
+		gl.uniformMatrix4fv(
+			shaderProgram.mvMatrixUniform, 
+			false, 
+			new Float32Array(_gl.mvMatrix.flatten())
+		);
 	}
 
 	var init_buffers = function()
 	{
 		triangleVertexPositionBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
-		gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(level.vertices), gl.STATIC_DRAW);
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(level.vertices), gl.STATIC_DRAW);
 		triangleVertexPositionBuffer.itemSize = 3;
 		triangleVertexPositionBuffer.numItems = level.vertices.length/3;
 
 		triangleVertexColorBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexColorBuffer);
-		gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(level.colors), gl.STATIC_DRAW);
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(level.colors), gl.STATIC_DRAW);
 		triangleVertexColorBuffer.itemSize = 4;
 		triangleVertexColorBuffer.numItems = level.colors.length/4;
 
 		triangleVertexTCordBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexTCordBuffer);
-		gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(level.tcords), gl.STATIC_DRAW);
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(level.tcords), gl.STATIC_DRAW);
 		triangleVertexTCordBuffer.itemSize = 2;
 		triangleVertexTCordBuffer.numItems = level.tcords.length/2;
 	}

@@ -5,10 +5,9 @@ attribute vec2 aTextureCoord;
 uniform mat4  uMVMatrix;
 uniform mat4  uPMatrix;
 uniform float uPointSize;
-uniform float uTime;
+uniform int uTime;
 uniform bool  uEnableAcid;
 
-varying float vTime;
 varying vec4 vColor;
 varying vec2 vTextureCoord;
 
@@ -35,7 +34,6 @@ void main(void)
 	gl_PointSize = uPointSize;
 
 	// pass values to the fragment shader
-	vTime = uTime;
 	vColor = aVertexColor;
 	vTextureCoord = aTextureCoord;
 }

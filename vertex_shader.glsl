@@ -5,10 +5,10 @@ attribute vec2 aTextureCoord;
 uniform mat4  uMVMatrix;
 uniform mat4  uPMatrix;
 uniform float uPointSize;
-uniform int   uTime;
+uniform float uTime;
 uniform bool  uEnableAcid;
 
-varying int vTime;
+varying float vTime;
 varying vec4 vColor;
 varying vec2 vTextureCoord;
 
@@ -21,9 +21,9 @@ void main(void)
 	{
 		float time = float(uTime) * 0.001;
 		position += vec4(
-			sin(time * 2.0 + position.x)*20,
-			sin(time * 3.0 + position.y)*20,
-			sin(time * 5.0 + position.z)*20,
+			sin(time * 2.0 + position.x)*20.0,
+			sin(time * 3.0 + position.y)*20.0,
+			sin(time * 5.0 + position.z)*20.0,
 			0.0
 		);
 	}

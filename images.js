@@ -55,7 +55,7 @@ var Images =
 
 			// bind image, set properties, load data, and mipmap
 			gl.bindTexture(gl.TEXTURE_2D,image.texture);
-			gl.texImage2D(gl.TEXTURE_2D,0,image.canvas);
+			gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,image.canvas);
 			gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
 			gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_NEAREST);
                 	gl.texParameterf(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.REPEAT);

@@ -23,7 +23,7 @@ View.prototype =
 	{
 		var up = this.orientation.vector('up');
 		var forward = this.orientation.vector('forward');
-		mvMatrix = makeLookAt(
+		_gl.mvMatrix = makeLookAt(
 			// pos
 			this.pos.x,this.pos.y,-this.pos.z,
 			// reference point
@@ -40,7 +40,7 @@ View.prototype =
 		up = this.orientation.vector('up');
 		forward = this.orientation.vector('forward');
 		right = this.orientation.vector('right');
-		multMatrix($M([
+		_gl.multMatrix($M([
 			[right.x, right.y, right.z, 0.0],
 			[up.x, up.y, up.z, 0.0],
 			[forward.x, forward.y, forward.z, 0.0],

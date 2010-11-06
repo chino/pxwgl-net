@@ -5,7 +5,7 @@ attribute vec2 aTextureCoord;
 uniform mat4  uMVMatrix;
 uniform mat4  uPMatrix;
 uniform float uPointSize;
-uniform int uTime;
+uniform int   uTime;
 uniform bool  uEnableAcid;
 
 varying vec4 vColor;

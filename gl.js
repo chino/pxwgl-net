@@ -1,5 +1,7 @@
 var GL = function(canvas)
 {
+	this.canvas = canvas;
+
 	try { this.gl = canvas.getContext("experimental-webgl"); } 
 		catch(e) { return log(e); }
 
@@ -12,7 +14,7 @@ var GL = function(canvas)
 	this.current_perspective['aspect'] = canvas.width/canvas.height;
 	this.set_perspective();
 
-	this.gl.viewport(0,0,canvas.width,canvas.height);
+	this.set_viewport();
 }
 GL.prototype = 
 {
@@ -73,15 +75,21 @@ GL.prototype =
 		var m = Matrix.Translation($V([v[0], v[1], v[2]])).ensure4x4();
 		this.multMatrix(m);
 	},
+	set_viewport: function()
+	{
+		this.gl.viewport(0,0,this.canvas.width,this.canvas.height);
+	},
 	current_perspective:
 	{
-		fovy:   70, 
+		fovy:   45, // 70, 
 		aspect: 1.0, 
 		znear:  0.1, // 10.0, 
-		zfar:   10000.0 
+		zfar:   100.0 // 10000.0 
 	},
 	set_perspective: function()
 	{
+		this.current_perspective['aspect'] =
+			this.canvas.width/this.canvas.height;
 		this.perspective(
 			this.current_perspective['fovy'],
 			this.current_perspective['aspect'],

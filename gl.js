@@ -2,8 +2,26 @@ var GL = function(canvas)
 {
 	this.canvas = canvas;
 
-	try { this.gl = this.canvas.getContext("experimental-webgl"); } 
-		catch(e) { log(e); return false; }
+	try
+	{
+		this.gl = WebGLDebugUtils.makeDebugContext(
+			this.canvas.getContext("experimental-webgl"),
+			function(err, func, args)
+			{
+				var error = WebGLDebugUtils.glEnumToString(err);
+				var props = [];
+				for(a in args){ if(args.hasOwnProperty(a)){props[a]=args[a]} }
+				props = props.join(',');
+				alert(error+" was caused by call to"+func+"("+props+")");
+				clearInterval(draw_interval);
+			}
+		);
+	} 
+	catch(e)
+	{
+		log(e);
+		return false; 
+	}
 
 	if (!this.gl) 
 		{ log("Could not initialise WebGL, sorry :-("); return false; }
@@ -21,10 +39,20 @@ var GL = function(canvas)
 }
 GL.prototype = 
 {
-	mvMatrix:      null,
-	mvMatrixStack: [],
-	pMatrix:       null,
-	gl:            null,
+	mvMatrix:       null,
+	mvMatrixPacked: null,
+	mvMatrixStack:  [],
+	pMatrix:        null,
+	pMatrixPacked:  null,
+	gl:             null,
+	setMvMatrix: function(m)
+	{
+		this.mvMatrix = m;
+		this.mvMatrixPacked = new Float32Array(
+			this.mvMatrix.flatten()
+		);
+		return m;
+	},
 	scale: function(x,y,z)
 	{
 		this.multMatrix($M([
@@ -42,22 +70,22 @@ GL.prototype =
 	},
 	loadIdentity: function()
 	{ 
-		this.mvMatrix = Matrix.I(4);
+		this.setMvMatrix( Matrix.I(4) );
 	},
 	multMatrix: function(m) 
 	{ 
-		this.mvMatrix = this.mvMatrix.x(m); 
+		this.setMvMatrix( this.mvMatrix.x(m) );
 	},
 	loatMatrix: function(m)
 	{
-		this.mvMatrix = m;
+		this.setMvMatrix( m );
 	},
 	pushMatrix: function(m)
 	{
 		if(m)
 		{
 			this.mvMatrixStack.push(m.dup());
-			this.mvMatrix = m.dup();
+			this.setMvMatrix( m.dup() );
 		}
 		else
 		{
@@ -70,8 +98,7 @@ GL.prototype =
 		{
 			throw "Invalid popMatrix!";
 		}
-		this.mvMatrix = this.mvMatrixStack.pop();
-		return this.mvMatrix;
+		return this.setMvMatrix( this.mvMatrixStack.pop() );
 	},
 	translate: function(v) 
 	{
@@ -91,7 +118,8 @@ GL.prototype =
 	},
 	set_perspective: function()
 	{
-		this.current_perspective['aspect'] = this.canvas.width/this.canvas.height;
+		this.current_perspective['aspect'] = 
+			this.canvas.width/this.canvas.height;
 		this.perspective(
 			this.current_perspective['fovy'],
 			this.current_perspective['aspect'],
@@ -106,5 +134,8 @@ GL.prototype =
 		this.current_perspective['znear']  = znear;
 		this.current_perspective['zfar']   = zfar;
 		this.pMatrix = makePerspective(fovy, aspect, znear, zfar);
+		this.pMatrixPacked = new Float32Array(
+			this.pMatrix.flatten()
+		);
 	}
 }

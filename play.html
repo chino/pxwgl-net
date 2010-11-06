@@ -21,6 +21,7 @@
 
 <style type="text/css">
 	body > div, body > canvas { display:block; float:left; margin:0.5em; border:1px solid black; }
+	#panel { float:right; }
 	.button { color:white; cursor:pointer; display:block; background:gray; border-bottom:1px solid black; text-align:center; }
 	.button:hover { font-style:italic; }
 	.body { padding:0.5em; }
@@ -35,89 +36,97 @@
 	<div id="canvas-wrapper" style="padding:1em;">
 		<canvas id="lesson02-canvas" width="500" height="500"></canvas>
 	</div>
-
-	<div>
-		<b class="button" onclick="$('#info-body').toggle()">Info</b>
-		<div class="body" id="info-body">
-			<div><b>FPS:</b> <span id="fps">0</span></div>
-			<div><b>Position:</b> <span id="pos">0,0,0</span></div>
-			<div><b>Orientation:</b> <span id="quat">0,0,0,0</span></div>
-			<div><b>Mouse:</b> <span id="mouse">0,0</span></div>
-			<div style="padding-top:0.5em;"><b>Vertices/Colors:</b> <span id="level-verts">0</span></div>
-			<div><b>Vertices Unique:</b> <span id="level-verts-unique">0</span></div>
-			<div><b>Triangles:</b> <span id="level-triangles">0</span></div>
-			<div><b>TCords:</b> <span id="level-tcords">0</span></div>
-		</div>
-	</div>
-
-	<div>
-		<b class="button" onclick="$('#controls-body').toggle()">Controls</b>
-		<div class="body" id="controls-body">
-			<b>Keys</b>
-			<div style="padding-left:1em;">
-				<b>w</b> = forward<br>
-				<b>s</b> = backward<br>
-				<b>e</b> = up<br>
-				<b>d</b> = down<br>
-				<b>f</b> = left<br>
-				<b>g</b> = right<br>
-			</div>
-			<b>Mouse</b>
-			<div style="padding-left:1em;">
-				<b>Accell</b> <input id="mouse-accell" type="text" value="3" style="width:2em;"/>
-			</div>
-		</div>
-	</div>
-
-	<div>
-		<b class="button" onclick="$('#settings-body').toggle()">Settings</b>
+	
+	<div id="panel">
+		<b class="button" onclick="$('#settings-body').toggle()">Panel</b>
 		<div class="body" id="settings-body">
 			<div style="float:left;">
-				Acid: <input id="acid" type="checkbox"/><br>
-				Textures: <input id="texture-button" type="checkbox" checked="true"/><br>
-				Alpha Test: <input id="alpha-test" type="checkbox" checked="true"/><br>
-				Vertex Colors: <input id="vertex-colors" type="checkbox" checked="true"/><br>
-				Culling: <input id="culling" type="checkbox" checked="true"/><br>
-				Front Face: 
-				<select id="front-face">
-					<option value="cw">Clock Wise</option>
-					<option value="ccw">Counter CW</option>
-				</select>
-				<br>
-				RenderMode: 
-				<select id="rendermode-dropdown">
-					<option value="triangles">Triangles</option>
-					<option value="lines">Lines</option>
-					<option value="points">Points</option>
-				</select>
-				<br>
-				Line Width: <input id="line-width" type="text" value="1" style="width:2em;"/><br>
-				Point Size: <input id="point-size" type="text" value="1" style="width:2em;"/><br>
-				Fog: <input id="fog" type="checkbox"/><br>
-				<div style="padding-left:1em;">
-					Density: <input id="fog-density" type="text" value="0.0005" style="width:4em;"/>
+
+				Info
+				<div class="body" id="info-body">
+					<div style="display:inline-block; width:9em"> FPS:                </div><span id="fps">                 0       </span><br>
+					<div style="display:inline-block; width:9em"> Position:           </div><span id="pos">                 0,0,0   </span><br>
+					<div style="display:inline-block; width:9em"> Orientation:        </div><span id="quat">                0,0,0,0 </span><br>
+					<div style="display:inline-block; width:9em"> Mouse:              </div><span id="mouse">               0,0     </span><br>
+					<div style="display:inline-block; width:9em"> Players:            </div><span id="players">             0       </span><br>
+					<div style="display:inline-block; width:9em"> Verts &amp; Colors: </div><span id="level-verts">         0       </span><br>
+					<div style="display:inline-block; width:9em"> Verts Unique:       </div><span id="level-verts-unique">  0       </span><br>
+					<div style="display:inline-block; width:9em"> Triangles:          </div><span id="level-triangles">     0       </span><br>
+					<div style="display:inline-block; width:9em"> TCords:             </div><span id="level-tcords">        0       </span><br>
 				</div>
-				Perspective: <br>
-				<div style="padding-left:1em;">
-					FOVY: <input id="fovy" type="text" value="70.0" style="width:4em;"/><br>
-					FAR: <input id="far" type="text" value="10000.0" style="width:4em;"/>
+
+				Controls
+				<div style="padding:1em;">
+					<div style="display:inline-block; width:9em"> forward  </div>w <br>
+					<div style="display:inline-block; width:9em"> backward </div>s <br>
+					<div style="display:inline-block; width:9em"> up       </div>e <br>
+					<div style="display:inline-block; width:9em"> down     </div>d <br>
+					<div style="display:inline-block; width:9em"> left     </div>f <br>
+					<div style="display:inline-block; width:9em"> right    </div>g <br>
+					<div style="display:inline-block; width:9em"> Mouse Accell: </div>
+						<input id="mouse-accell" type="text" value="3" style="width:2em;"/>
 				</div>
-				Canvas Size: <input id="canvas-width" type="text" value="500" style="width:2em;"/> x 
-						<input id="canvas-height" type="text" value="500" style="width:2em;"/><br>
-				<p>
+
+				Graphics
+				<div style="padding:1em;">
+					Acid Effect: <input id="acid" type="checkbox"/><br>
+					Textures: <input id="texture-button" type="checkbox" checked="true"/><br>
+					Alpha Test: <input id="alpha-test" type="checkbox" checked="true"/><br>
+					Vertex Colors: <input id="vertex-colors" type="checkbox" checked="true"/><br>
+					Culling: <input id="culling" type="checkbox" checked="true"/><br>
+
+					Viewport:
+							<input id="canvas-width" type="text" value="500" style="width:2em;"/> x 
+							<input id="canvas-height" type="text" value="500" style="width:2em;"/><br>
+
+					Front Face: 
+					<select id="front-face">
+						<option value="cw">Clock Wise</option>
+						<option value="ccw">Counter CW</option>
+					</select>
+					<br>
+
+					RenderMode: 
+					<select id="rendermode-dropdown">
+						<option value="triangles">Triangles</option>
+						<option value="lines">Lines</option>
+						<option value="points">Points</option>
+					</select>
+					<br>
+
+					Line Width: <input id="line-width" type="text" value="1" style="width:2em;"/><br>
+
+					Point Size: <input id="point-size" type="text" value="1" style="width:2em;"/><br>
+
+					Perspective: 
+						(Y) <input id="fovy" type="text" value="70.0" style="width:3em;"/>
+						(F) <input id="far" type="text" value="10000.0" style="width:4em;"/><br>
+
+					Fog: <input id="fog" type="checkbox"/>
+						Density: <input id="fog-density" type="text" value="0.0005" style="width:4em;"/><br>
+
 					Gamma: <input id="gamma-value" type="text" value="1" style="width:13em;"/><br>
-					blue line: no change in image.<br>
-					red line: new values for rbga.<br><br>
-					<canvas id="gamma-canvas" height="255" width="255" style="border:1px solid black;"></canvas><br>
-				</p>
+					<canvas id="gamma-canvas" height="255" width="255" style="border:1px solid black; margin-top:1em;"></canvas>
+
+				</div>
 			</div>
 			<div id="textures" style="float:left; margin:0.5em;"></div>
 		</div>
 	</div>
 
 	<div>
+		<b class="button" onclick="$('#log-body').toggle()">Logs</b>
+		<div class="body" id="log-body">
+			<div class="toolbar">
+				<input type="button" value="Clear" onclick="$('#log').empty()"/>
+			</div>
+			<div id="log"></div>
+		</div>
+	</div>
+
+	<div>
 		<b class="button" onclick="$('#vertex-shader-body').toggle()">Vertex Shader</b>
-		<div class="body" id="vertex-shader-body">
+		<div class="body" id="vertex-shader-body" style="display:none">
 			<div class="toolbar">
 				<input id="vertex-shader-apply" type="button" value="Apply Changes"/>
 				<input id="vertex-shader-reset" type="button" value="Reset Defaults"/>
@@ -128,22 +137,12 @@
 
 	<div>
 		<b class="button" onclick="$('#fragment-shader-body').toggle()">Fragement Shader</b>
-		<div class="body" id="fragment-shader-body">
+		<div class="body" id="fragment-shader-body" style="display:none">
 			<div class="toolbar">
 				<input id="fragment-shader-apply" type="button" value="Apply Changes"/>
 				<input id="fragment-shader-reset" type="button" value="Reset Defaults"/>
 			</div>
 			<textarea id="fragment-shader" type="text" rows="50" cols="90"></textarea>
-		</div>
-	</div>
-	
-	<div style="clear:both;">
-		<b class="button" onclick="$('#log-body').toggle()">Logs</b>
-		<div class="body" id="log-body">
-			<div class="toolbar">
-				<input type="button" value="Clear" onclick="$('#log').empty()"/>
-			</div>
-			<div id="log"></div>
 		</div>
 	</div>
 

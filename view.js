@@ -23,7 +23,7 @@ View.prototype =
 	{
 		var up = this.orientation.vector('up');
 		var forward = this.orientation.vector('forward');
-		_gl.mvMatrix = makeLookAt(
+		_gl.setMvMatrix(makeLookAt(
 			// pos
 			this.pos.x,this.pos.y,-this.pos.z,
 			// reference point
@@ -32,7 +32,7 @@ View.prototype =
 			-this.pos.z-forward.z,
 			// up
 			up.x,up.y,-up.z
-		);
+		));
 		_gl.scale(1,1,-1);
 	},
 	load_matrix: function()

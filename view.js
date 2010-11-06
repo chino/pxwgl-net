@@ -33,7 +33,6 @@ View.prototype =
 			// up
 			up.x,up.y,-up.z
 		));
-		_gl.scale(1,1,-1);
 	},
 	load_matrix: function()
 	{

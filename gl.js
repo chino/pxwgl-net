@@ -112,9 +112,9 @@ GL.prototype =
 	current_perspective:
 	{
 		fovy:   70, 
-		aspect: 1.0, 
+		aspect: 1, 
 		znear:  0.1, // 10.0, 
-		zfar:   10000.0 
+		zfar:   10000000000
 	},
 	set_perspective: function()
 	{

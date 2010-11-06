@@ -27,7 +27,7 @@ var GL = function(canvas)
 		{ log("Could not initialise WebGL, sorry :-("); return false; }
 
 	this.__noSuchMethod__ = function(id,args)
-		{ alert("no: "+id); }
+		{ alert("GL has no method: "+id); }
 
 	this.current_perspective['aspect'] = 
 		this.canvas.width/this.canvas.height;
@@ -114,7 +114,7 @@ GL.prototype =
 		fovy:   45, // 70, 
 		aspect: 1.0, 
 		znear:  0.1, // 10.0, 
-		zfar:   100.0 // 10000.0 
+		zfar:   10000.0 
 	},
 	set_perspective: function()
 	{

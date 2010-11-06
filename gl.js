@@ -2,19 +2,22 @@ var GL = function(canvas)
 {
 	this.canvas = canvas;
 
-	try { this.gl = canvas.getContext("experimental-webgl"); } 
-		catch(e) { return log(e); }
+	try { this.gl = this.canvas.getContext("experimental-webgl"); } 
+		catch(e) { log(e); return false; }
 
 	if (!this.gl) 
-		{ return log("Could not initialise WebGL, sorry :-("); }
+		{ log("Could not initialise WebGL, sorry :-("); return false; }
 
 	this.__noSuchMethod__ = function(id,args)
 		{ alert("no: "+id); }
 
-	this.current_perspective['aspect'] = canvas.width/canvas.height;
+	this.current_perspective['aspect'] = 
+		this.canvas.width/this.canvas.height;
 	this.set_perspective();
 
 	this.set_viewport();
+
+	return true;
 }
 GL.prototype = 
 {
@@ -88,8 +91,7 @@ GL.prototype =
 	},
 	set_perspective: function()
 	{
-		this.current_perspective['aspect'] =
-			this.canvas.width/this.canvas.height;
+		this.current_perspective['aspect'] = this.canvas.width/this.canvas.height;
 		this.perspective(
 			this.current_perspective['fovy'],
 			this.current_perspective['aspect'],

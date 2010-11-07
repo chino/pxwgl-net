@@ -39,10 +39,10 @@ var GL = function(canvas)
 }
 GL.prototype = 
 {
-	mvMatrix:       null,
+	mvMatrix:       Matrix.I(4),
 	mvMatrixPacked: null,
 	mvMatrixStack:  [],
-	pMatrix:        null,
+	pMatrix:        Matrix.I(4),
 	pMatrixPacked:  null,
 	gl:             null,
 	setMvMatrix: function(m)

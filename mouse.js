@@ -1,10 +1,4 @@
-var Mouse = function(element)
-{
-	var that = this;
-	element.onmousemove = function(e){ that.input(e); }
-	element.onmouseover = function(e){ that.over(e); }
-	element.onmouseout = function(e){ that.out(e); }
-}
+var Mouse = function(){}
 Mouse.prototype =
 {
 	last: {x:0, y:0},

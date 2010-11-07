@@ -13,8 +13,8 @@ var actions = {
 	back: function(pressed){ pressed ? movement.z -= step : movement.z = 0; },
 	up: function(pressed){ pressed ? movement.y += step : movement.y = 0; },
 	down: function(pressed){ pressed ? movement.y -= step : movement.y = 0; },
-	left: function(pressed){ pressed ? movement.x -= step : movement.x = 0; },
-	right: function(pressed){ pressed ? movement.x += step : movement.x = 0; }
+	left: function(pressed){ pressed ? movement.x += step : movement.x = 0; },
+	right: function(pressed){ pressed ? movement.x -= step : movement.x = 0; }
 }
 //var max_speed = step*3;
 //var full_speed_fovy = 130;
@@ -34,7 +34,7 @@ var keyboard =
 	pressed: {},
 	press: function(e)
 	{
-		var c = String.fromCharCode(e.keyCode);
+		var c = String.fromCharCode(e.which);
 		if(!keyboard.pressed[c])
 		{
 			keyboard.pressed[c] = true; 
@@ -43,7 +43,7 @@ var keyboard =
 	},
 	release: function(e)
 	{
-		var c = String.fromCharCode(e.keyCode);
+		var c = String.fromCharCode(e.which);
 		if(keyboard.pressed[c])
 		{
 			keyboard.pressed[c] = false;
@@ -51,4 +51,34 @@ var keyboard =
 		}
 	}
 }
-
+var inputs_active = false;
+var init_inputs = function()
+{
+	var e = $('#canvas-wrapper');
+	mouse = new Mouse();
+	e.mouseout(function(e)
+	{
+//		movement = new Vec(0,0,0); 
+		inputs_active = false;
+		mouse.out(e);
+	});
+	e.mouseover(function(e)
+	{
+		inputs_active = true;
+		mouse.over(e);
+	});
+	e.mousemove(function(e)
+	{
+		mouse.input(e)
+	});
+	$(document).keydown(function(e)
+	{
+		if(!inputs_active){return}
+		keyboard.press(e);
+	});
+	$(document).keyup(function(e)
+	{
+		if(!inputs_active){return}
+		keyboard.release(e);
+	});
+}

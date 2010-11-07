@@ -477,6 +477,9 @@
     gl.vertexAttribPointer(shaderProgram.vertexColorAttribute,
 			pyramidVertexColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
+		// disable texturing for pyramid
+		gl.uniform1i(shaderProgram.enableTexturingUniform, false);
+
 		// disable culling so pyramid doesn't look weird
 		gl.disable(gl.CULL_FACE);
 
@@ -502,6 +505,10 @@
 		// re-enable culling if form box is checked
 		if($('#culling').is(':checked'))
 			{ gl.enable(gl.CULL_FACE); }
+
+		// re-enable texturing if checkbox clicked
+    gl.uniform1i(shaderProgram.enableTexturingUniform,
+			$('#texture-button').is(':checked'));
 
 		// update info pain
 		$('#pos').html(camera.pos.to_s());

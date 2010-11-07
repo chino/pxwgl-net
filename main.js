@@ -201,14 +201,26 @@
         -1.0, -1.0,  1.0,
          1.0, -1.0, -1.0,
     ];
-		for(var i=0; i<vertices.length; i++)
+
+		// rotate forward so top of pyramid is forward
+		var rotation = Matrix.Rotation( 90 , $V([1,0,0]) );
+		for(var i=0; i<(vertices.length/3); i++)
 		{
-			vertices[i] *= 100;
+			var r = i * 3;
+			var source = $V([ vertices[r+0], vertices[r+1], vertices[r+2] ]);
+			var result = rotation.x( source );
+			vertices[r+0] = result.elements[0];
+			vertices[r+1] = result.elements[1];
+			vertices[r+2] = result.elements[2];
+			//log(source.elements.toSource()+" = "+result.elements.toSource())
 		}
+
+		// scale the pyramid up
+		for(var i=0; i<vertices.length; i++) { vertices[i] *= 100; }
+
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
     pyramidVertexPositionBuffer.itemSize = 3;
     pyramidVertexPositionBuffer.numItems = 18;
-
 
     pyramidVertexColorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexColorBuffer);

@@ -89,7 +89,7 @@ GL.prototype =
 		}
 		else
 		{
-			this.mvMatrixStack.push(this.mvMatrix.dup);
+			this.mvMatrixStack.push(this.mvMatrix.dup());
 		}
 	},
 	popMatrix: function()

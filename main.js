@@ -533,7 +533,7 @@
 		onopen: function()
 		{
 			log("connected to server"); 
-			net.interval = window.setInterval( net.send_update, 1000/10 );
+			net.interval = window.setInterval( net.send_update, 1000/30 );
 		},
 		onclose: function()
 		{ 

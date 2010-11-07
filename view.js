@@ -25,13 +25,11 @@ View.prototype =
 		var forward = this.orientation.vector('forward');
 		_gl.setMvMatrix(makeLookAt(
 			// pos
-			this.pos.x,this.pos.y,-this.pos.z,
+			this.pos.x,this.pos.y,this.pos.z,
 			// reference point
-			this.pos.x+forward.x,
-			this.pos.y+forward.y,
-			-this.pos.z-forward.z,
+			this.pos.x+forward.x,this.pos.y+forward.y,this.pos.z+forward.z,
 			// up
-			up.x,up.y,-up.z
+			up.x,up.y,up.z
 		));
 	},
 	load_matrix: function()
@@ -43,7 +41,7 @@ View.prototype =
 			[right.x, right.y, right.z, 0.0],
 			[up.x, up.y, up.z, 0.0],
 			[forward.x, forward.y, forward.z, 0.0],
-			[this.pos.x, this.pos.y, -this.pos.z, 1.0]
+			[this.pos.x, this.pos.y, this.pos.z, 1.0]
 		]));
 	},
 }

@@ -65,15 +65,16 @@ Quat.prototype =
 	directions: {
 		up: new Vec(0,1,0),
 		down: new Vec(0,-1,0),
-		forward: new Vec(0,0,1),
-		back: new Vec(0,0,-1),
+		forward: new Vec(0,0,-1),
+		back: new Vec(0,0,1),
 		right: new Vec(1,0,0),
 		left: new Vec(-1,0,0)
 	},
 	vector: function( direction )
 	{
 		var d = (this.directions[direction] || direction).quat();
-		return this.normalize().times(d.times(this.conjugate()));
+		var r = this.normalize().times(d.times(this.conjugate()));
+		return new Vec(r.x,r.y,r.z);
 	},
 	to_s: function()
 	{

@@ -9,12 +9,12 @@ var bindings = {
 	g: 'right'
 }
 var actions = {
-	forward: function(pressed){ pressed ? movement.z += step : movement.z = 0; },
-	back: function(pressed){ pressed ? movement.z -= step : movement.z = 0; },
+	forward: function(pressed){ pressed ? movement.z -= step : movement.z = 0; },
+	back: function(pressed){ pressed ? movement.z += step : movement.z = 0; },
 	up: function(pressed){ pressed ? movement.y += step : movement.y = 0; },
 	down: function(pressed){ pressed ? movement.y -= step : movement.y = 0; },
-	left: function(pressed){ pressed ? movement.x += step : movement.x = 0; },
-	right: function(pressed){ pressed ? movement.x -= step : movement.x = 0; }
+	left: function(pressed){ pressed ? movement.x -= step : movement.x = 0; },
+	right: function(pressed){ pressed ? movement.x += step : movement.x = 0; }
 }
 //var max_speed = step*3;
 //var full_speed_fovy = 130;
@@ -58,7 +58,7 @@ var init_inputs = function()
 	mouse = new Mouse();
 	e.mouseout(function(e)
 	{
-//		movement = new Vec(0,0,0); 
+		movement = new Vec(0,0,0); 
 		inputs_active = false;
 		mouse.out(e);
 	});

@@ -12,7 +12,7 @@ var GL = function(canvas)
 				var props = [];
 				for(a in args){ if(args.hasOwnProperty(a)){props[a]=args[a]} }
 				props = props.join(',');
-				var msg = error+" was caused by call to"+func+"("+props+")";
+				var msg = error+" was caused by call to "+func+"("+props+")"
 				clearInterval(draw_interval);
 				alert(msg);
 				throw(msg);

@@ -203,7 +203,7 @@
     ];
 
 		// rotate forward so top of pyramid is forward
-		var rotation = Matrix.Rotation( 90 , $V([1,0,0]) );
+		var rotation = Matrix.Rotation( Math.PI/2 , $V([1,0,0]) );
 		for(var i=0; i<(vertices.length/3); i++)
 		{
 			var r = i * 3;

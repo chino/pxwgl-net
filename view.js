@@ -42,6 +42,6 @@ View.prototype =
 			[up.x, up.y, up.z, 0.0],
 			[forward.x, forward.y, forward.z, 0.0],
 			[this.pos.x, this.pos.y, this.pos.z, 1.0]
-		]));
+		]).transpose());
 	},
 }

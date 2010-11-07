@@ -60,7 +60,7 @@ GL.prototype =
 			[0,y,0,0],
 			[0,0,z,0],
 			[0,0,0,1]
-			]));
+			]).transpose());
 	},
 	rotate: function (ang, v)
 	{
@@ -76,7 +76,7 @@ GL.prototype =
 	{ 
 		this.setMvMatrix( this.mvMatrix.x(m) );
 	},
-	loatMatrix: function(m)
+	loadMatrix: function(m)
 	{
 		this.setMvMatrix( m );
 	},

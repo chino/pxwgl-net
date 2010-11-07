@@ -474,13 +474,15 @@
 		}
 
 		// set pyramid buffers
-
     gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexPositionBuffer);
     gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute,
 			pyramidVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
     gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexColorBuffer);
     gl.vertexAttribPointer(shaderProgram.vertexColorAttribute,
 			pyramidVertexColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+		// disable culling so pyramid doesn't look weird
+		gl.disable(gl.CULL_FACE);
 
 		// render players
 		for(var p in net.players)
@@ -500,6 +502,10 @@
 			gl.drawArrays(render_mode, 0, pyramidVertexPositionBuffer.numItems);
 			_gl.popMatrix();
 		}
+
+		// re-enable culling if form box is checked
+		if($('#culling').is(':checked'))
+			{ gl.enable(gl.CULL_FACE); }
 
 		// update info pain
 		$('#pos').html(camera.pos.to_s());

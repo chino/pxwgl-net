@@ -48,6 +48,7 @@
 
 	var reinit_uniforms = function()
 	{
+		if(!shaderProgram.enableVertexColorsUniform){return} // first run
 		gl.uniform1i(shaderProgram.enableVertexColorsUniform, true);
 		gl.uniform1i(shaderProgram.enableTexturingUniform, true);
 		gl.uniform1i(shaderProgram.enableAlphaTestUniform, true);

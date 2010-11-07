@@ -464,11 +464,27 @@
 			gl.vertexAttribPointer(shaderProgram.vertexCoordAttribute,
 				triangleVertexTCordBuffer.itemSize, gl.FLOAT, false, 0, 0);
 		}
+		var transparancies = [];
 		for(var i=0; i<level.indices.length; i++)
 		{
+			if(level.indices[i][3])
+			{
+				transparancies.push(level.indices[i]);
+				continue;
+			}
 			gl.bindTexture(gl.TEXTURE_2D, Images.get(level.indices[i][2]).texture);
 			gl.drawArrays(render_mode, level.indices[i][0], level.indices[i][1]);
 		}
+		gl.depthMask(false);
+		gl.enable(gl.BLEND);
+		gl.blendFunc(gl.SRC_ALPHA,gl.ONE);
+		for(var i=0; i<transparancies.length; i++)
+		{
+			gl.bindTexture(gl.TEXTURE_2D, Images.get(transparancies[i][2]).texture);
+			gl.drawArrays(render_mode, transparancies[i][0], transparancies[i][1]);
+		}
+		gl.depthMask(true);
+		gl.disable(gl.BLEND);
 
 		// set pyramid buffers
     gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexPositionBuffer);

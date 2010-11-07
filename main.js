@@ -203,16 +203,12 @@
     ];
 
 		// rotate forward so top of pyramid is forward
-		var rotation = Matrix.Rotation( Math.PI/2 , $V([1,0,0]) );
 		for(var i=0; i<(vertices.length/3); i++)
 		{
-			var r = i * 3;
-			var source = $V([ vertices[r+0], vertices[r+1], vertices[r+2] ]);
-			var result = rotation.x( source );
-			vertices[r+0] = result.elements[0];
-			vertices[r+1] = result.elements[1];
-			vertices[r+2] = result.elements[2];
-			//log(source.elements.toSource()+" = "+result.elements.toSource())
+			var r = i*3;
+			var y = vertices[r+1];
+			vertices[r+1] = vertices[r+2];
+			vertices[r+2] = y;
 		}
 
 		// scale the pyramid up
@@ -243,11 +239,11 @@
         0.0, 1.0, 0.0, 1.0,
         // Left face
         1.0, 0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0, 1.0,
-        0.0, 1.0, 0.0, 1.0,
         1.0, 0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0, 1.0,
-        0.0, 1.0, 0.0, 1.0,
+        1.0, 0.0, 0.0, 1.0,
+        1.0, 0.0, 0.0, 1.0,
+        1.0, 0.0, 0.0, 1.0,
+        1.0, 0.0, 0.0, 1.0,
     ];
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
     pyramidVertexColorBuffer.itemSize = 4;

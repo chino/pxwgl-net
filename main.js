@@ -274,12 +274,7 @@
 	var init_camera = function()
 	{
 		camera = new View();
-/*
-		camera.pos.x = -2004;
-		camera.pos.y = -561;
-		camera.pos.z = -4020;
-		camera.rotate(90,0,0)
-*/
+		camera.pos.z = 1300;
 	}
 
 	var init_ui = function()
@@ -430,6 +425,9 @@
 	{
 		if(!drawOK){ return; };
 
+		// physics
+		world.update();
+
 		// set global uniforms and gl properties
 		gl.uniform1i(shaderProgram.timeUniform, (new Date()).getTime());
 		gl.activeTexture(gl.TEXTURE0);
@@ -514,6 +512,25 @@
     	  [forward.x, forward.y, forward.z, 0.0],
       	[player.pos.x, player.pos.y, player.pos.z, 1.0]
 	    ]).transpose())
+			setMatrixUniforms();
+			gl.drawArrays(render_mode, 0, pyramidVertexPositionBuffer.numItems);
+			_gl.popMatrix();
+		}
+
+		// render world bodies
+		for(var i=0; i<world.bodies.length; i++)
+		{
+			var body = world.bodies[i];
+			var up = body.orientation.vector("up");
+			var right = body.orientation.vector("right");
+			var forward = body.orientation.vector("forward");
+			_gl.pushMatrix();
+			_gl.multMatrix($M([
+				[right.x, right.y, right.z, 0.0],
+				[up.x, up.y, up.z, 0.0],
+				[forward.x, forward.y, forward.z, 0.0],
+				[body.pos.x, body.pos.y, body.pos.z, 1.0]
+			]).transpose())
 			setMatrixUniforms();
 			gl.drawArrays(render_mode, 0, pyramidVertexPositionBuffer.numItems);
 			_gl.popMatrix();
@@ -609,6 +626,34 @@
 		}
 	}
 
+	var sphere_body = function(s)
+	{
+		var body = new SphereBody(s);
+		world.bodies.push(body);
+		return body;
+	}
+
+	var init_world = function()
+	{
+		world = new World();
+		sphere_body({
+			radius: 150,
+			pos: new Vec(-500,0,0),
+			velocity: new Vec(5,0,0),
+			drag: 0,
+			rotation_velocity: new Vec(-1,0,0),
+			rotation_drag: 0
+		});
+		sphere_body({
+			radius: 150,
+			pos: new Vec(500,0,0),
+			velocity: new Vec(-10,0,0),
+			drag: 0,
+			rotation_velocity: new Vec(1,0,0),
+			rotation_drag: 0
+		});
+	}
+
 	$(document).ready(function() 
 	{
 		init_gl();
@@ -617,5 +662,6 @@
 		init_inputs();
 		net.connect();
 		textures.init();
+		init_world();
 		draw_interval = setInterval(draw, 1);
 	});

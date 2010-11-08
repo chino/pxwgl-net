@@ -8,6 +8,10 @@ var Quat = function(x,y,z,w)
 
 Quat.prototype = 
 {
+	has_velocity: function()
+	{
+		return (this.dot() > 0.001);
+	},
 	length: function() 
 	{
 		return	Math.sqrt(this.dot()); 

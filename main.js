@@ -423,11 +423,21 @@
 		});
 	}
 
-	var drawOK = false;
-	var draw = function()
-	{
-		if(!drawOK){ return; };
 
+	var main_fps = fps_counter();
+	var physics_fps = fps_counter();
+	var main = function()
+	{
+		$('#main_fps').html(main_fps());
+		process_inputs();
+		if(world.update()) { $('#physics_fps').html(physics_fps()); }
+		net.send_update();
+		draw();
+		window.setZeroTimeout(main);
+	}
+
+	var process_inputs = function()
+	{
 		// process inputs
 		var xy = mouse.get();
 		xyv = new Vec(xy.x, xy.y, 0);
@@ -446,12 +456,23 @@
 				)
 			) 
 		);
+		$('#mouse').html(xy.to_s());
+		$('#pos').html(camera.pos.to_s());
+		$('#quat').html(camera.orientation.to_s());
+	}
 
-		// physics
-		world.update();
+	var drawOK = false;
+	var last_draw = get_ticks();
+	var draw_fps = fps_counter();
+	var draw = function()
+	{
+		if(!drawOK){ return; };
 
-		// send newtork update
-		net.send_update();
+		// render cap
+		var now = get_ticks();
+		if( now - last_draw < (1000/70) ) { return }
+		last_draw = now;
+		$('#fps').html(draw_fps());
 
 		// set global uniforms and gl properties
 		gl.uniform1i(shaderProgram.timeUniform, (new Date()).getTime());
@@ -566,13 +587,6 @@
 		// re-enable texturing if checkbox clicked
     gl.uniform1i(shaderProgram.enableTexturingUniform,
 			$('#texture-button').is(':checked'));
-
-		// update info pain
-		$('#pos').html(camera.pos.to_s());
-		$('#quat').html(camera.orientation.to_s());
-		$('#mouse').html(xy.to_s());
-		$('#players').html(net.player_count);
-		$('#fps').html(fps.run());
 	}
 
 	var net = 
@@ -580,6 +594,7 @@
 		socket: null,
 		players: {},
 		player_count: 0,
+		connected: false,
 		connect: function()
 		{
 			net.socket = new WebSocket("ws://fly.thruhere.net:8080");
@@ -590,13 +605,14 @@
 		onopen: function()
 		{
 			log("connected to server"); 
+			net.connected = true;
 		},
 		onclose: function()
 		{ 
 			log("disconnected from server"); 
 			window.clearInterval( net.interval );
-			net.interval = null;
 			net.players = [];
+			net.connected = false;
 		},
 		receive: function(msg)
 		{
@@ -644,9 +660,11 @@
 			{ 
 				log("error "+e+" while trying to eval message: "+msg);
 			}
+			$('#players').html(net.player_count);
 		},
 		send: function(msg)
 		{
+			if(!net.connected){return}
 			if(!msg){return;}
 			try { net.socket.send(msg); }
 			catch (e) { log("error ("+e+") attempting to send message: "+msg); return; }
@@ -715,5 +733,7 @@
 		net.connect();
 		textures.init();
 		init_world();
-		draw_interval = setInterval(draw, 1);
+		add_setZeroTimeout();
+//		main_interval = setInterval(main, 1);
+		main();
 	});

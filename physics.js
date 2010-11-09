@@ -192,17 +192,18 @@ var World = function()
 {
 	this.bodies = []
 	this.last_run = get_ticks();
-	this.interval = 1/40
+	this.interval = 1000/30
 }
 World.prototype =
 {
 	update: function()
 	{
-		if(!this.check_interval()){return}
+		if(!this.check_interval()){return false}
 		this.drag();
 		this.collisions();
-		if(this.callback){return this.callback()}
+		if(this.callback){this.callback()}
 		this.velocities();
+		return true;
 	},
 	check_interval: function()
 	{

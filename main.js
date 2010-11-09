@@ -447,11 +447,11 @@
 			) 
 		);
 
-		// send newtork update
-		net.send_update();
-
 		// physics
 		world.update();
+
+		// send newtork update
+		net.send_update();
 
 		// set global uniforms and gl properties
 		gl.uniform1i(shaderProgram.timeUniform, (new Date()).getTime());
@@ -617,16 +617,28 @@
 				}
 				var player = net.players[packet.id];
 				player.body.pos = new Vec(
-					packet.data.pos[0],
-					packet.data.pos[1],
-					packet.data.pos[2]
+					packet.data.p[0],
+					packet.data.p[1],
+					packet.data.p[2]
+				);
+				player.body.velocity = new Vec(
+					packet.data.v[0],
+					packet.data.v[1],
+					packet.data.v[2]
 				);
 				player.body.orientation = new Quat(
-					packet.data.dir[0],
-					packet.data.dir[1],
-					packet.data.dir[2],
-					packet.data.dir[3]
+					packet.data.d[0],
+					packet.data.d[1],
+					packet.data.d[2],
+					packet.data.d[3]
 				);
+/* makes it very shaky , need to fix physics?
+				player.body.rotation_velocity = new Vec(
+					packet.data.r[0],
+					packet.data.r[1],
+					packet.data.r[2]
+				);
+*/
 			}
 			catch (e)
 			{ 
@@ -651,8 +663,12 @@
 			if( now - this.last_update < (1000/30) ) { return }
 			this.last_update = now;
 			net.send(
-				"{ pos: ["+camera.pos.to_s()+"], "+
-				"dir: ["+camera.orientation.to_s()+"] }"
+				"{"+
+					"p:["+camera.pos.to_s()+"],"+
+					"d:["+camera.orientation.to_s()+"],"+
+					"v:["+camera.velocity.to_s()+"],"+
+					"r:["+camera.rotation_velocity.to_s()+"]"+
+				"}"
 			);
 		}
 	}

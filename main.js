@@ -447,6 +447,9 @@
 			) 
 		);
 
+		// send newtork update
+		net.send_update();
+
 		// physics
 		world.update();
 
@@ -587,7 +590,6 @@
 		onopen: function()
 		{
 			log("connected to server"); 
-			net.interval = window.setInterval( net.send_update, 1000/30 );
 		},
 		onclose: function()
 		{ 
@@ -642,8 +644,12 @@
 		{
 			net.socket.close();
 		},
+		last_update: get_ticks(),
 		send_update: function()
 		{
+			var now = get_ticks();
+			if( now - this.last_update < (1000/30) ) { return }
+			this.last_update = now;
 			net.send(
 				"{ pos: ["+camera.pos.to_s()+"], "+
 				"dir: ["+camera.orientation.to_s()+"] }"

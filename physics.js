@@ -61,7 +61,6 @@ var CollisionResponse =
 {
 	sphere_sphere: function( a, b, info )
 	{
-log(1)
 		// since drag is only applied per frame we don't need to update velocity
 		//a.velocity = info.fa - a.pos
 		//b.velocity = info.fb - b.pos
@@ -75,10 +74,13 @@ log(1)
 
 		var v = a.pos.minus( b.pos ); // vector between spheres
 		var vn = v.normalize();
-		var u1 = vn.multiply( vn.dot(a.velocity) ); // collision component of velocity
-		var u2 = vn.multiply( vn.dot(b.velocity) );
+
+		var u1 = vn.multiply_scalar( vn.dot(a.velocity) ); // collision component of velocity
+		var u2 = vn.multiply_scalar( vn.dot(b.velocity) );
+
 		a.velocity = a.velocity.minus( u1 ); // remove collision component
-		b.velocity = a.velocity.minus( u2 );
+		b.velocity = b.velocity.minus( u2 );
+
 		var vi = u1.multiply_scalar( a.mass ).plus( u2.multiply_scalar( b.mass ) ); // vi states if collision is elastic or inelastic
 		var vea = u1.multiply_scalar( a.mass - b.mass ).plus( u2.multiply_scalar( 2 * b.mass ) ); // velocity for elastic collision for object a
 		var veb = u2.multiply_scalar( b.mass - a.mass ).plus( u1.multiply_scalar( 2 * a.mass ) ); // velocity for elastic collision for object b
@@ -89,8 +91,13 @@ log(1)
 		var fvb = veb.multiply_scalar( bounce ).plus( vi.multiply_scalar( 1 - bounce ) ); // for values between 0 and 1, pick a point in the middle
 		fva = fva.divide_scalar( a.mass + b.mass ); // final velocity of a
 		fvb = fvb.divide_scalar( a.mass + b.mass ); // final velocity of b
-		a.velocity = a.velocity.plus( fva );
-		b.velocity = b.velocity.plus( fvb );
+
+// isn't it better to set them to fv ?
+
+		a.velocity = fva; //a.velocity.plus( fva );
+		b.velocity = fvb; //b.velocity.plus( fvb );
+
+// debugging
 
 		// detect if objects are stuck inside one another after movement
 		var afp = a.pos.plus( a.velocity ); // pos after movement
@@ -99,8 +106,8 @@ log(1)
 		if( afp.minus( bfp ).length2() > Math.pow(radius,2) ){return}
 
 		// if so separate them
-//		a.pos = a.pos.plus( vn.multiply_scalar( a.radius ) ); // move them apart by their radius
-//		b.pos = b.pos.minus( vn.multiply_scalar( b.radius ) );
+		a.pos = a.pos.plus( vn.multiply_scalar( a.radius ) ); // move them apart by their radius
+		b.pos = b.pos.minus( vn.multiply_scalar( b.radius ) );
 		log("collision response did not successfully separate objects");
 	}
 }

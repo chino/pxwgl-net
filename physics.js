@@ -158,6 +158,7 @@ var Body = function(s)
 	this.drag          = s['drag'];
 	this.rotation_drag = s['rotation_drag'];
 
+	// numbers can be 0 which in js is boolean false
   if(!this.mass){throw("mass cannot be zero")};
 	if(s.rotation_drag == undefined){ this.rotation_drag = 5 }
 	if(s.drag == undefined){ this.drag = 0.1 }

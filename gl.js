@@ -55,6 +55,16 @@ GL.prototype =
 		);
 		return m;
 	},
+	look_from: function(body)
+	{
+		var up = body.orientation.vector('up');
+		var forward = body.orientation.vector('forward');
+		this.setMvMatrix(makeLookAt(
+			body.pos.x, body.pos.y, body.pos.z,
+			body.pos.x+forward.x, body.pos.y+forward.y, body.pos.z+forward.z,
+			up.x, up.y, up.z
+		));
+	},
 	scale: function(x,y,z)
 	{
 		this.multMatrix($M([

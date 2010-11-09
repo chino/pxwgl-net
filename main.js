@@ -271,12 +271,6 @@
 			{gl.hint(gl.PERSPECTIVE_CORRECTION_HINT, gl.NICEST);}
 	}
 
-	var init_camera = function()
-	{
-		camera = new View();
-		camera.pos.z = 1300;
-	}
-
 	var init_ui = function()
 	{
 
@@ -316,8 +310,17 @@
 
 		// form fields
 
-		mouse_accell = $('#mouse-accell').val();
-		$('#mouse-accell').keyup(function() { mouse_accell = this.value; });
+		move_accell = $('#move-accell').val();
+		$('#move-accell').keyup(function() { move_accell = this.value; });
+
+		turn_accell = $('#turn-accell').val();
+		$('#turn-accell').keyup(function() { turn_accell = this.value; });
+
+		move_drag = $('#move-drag').val();
+		$('#move-drag').keyup(function() { move_drag = this.value; });
+
+		turn_drag = $('#turn-drag').val();
+		$('#turn-drag').keyup(function() { turn_drag = this.value; });
 
 		$('#fovy').val(_gl.current_perspective['fovy']);
 		$('#fovy').keyup(function()
@@ -425,6 +428,25 @@
 	{
 		if(!drawOK){ return; };
 
+		// process inputs
+		var xy = mouse.get();
+		xyv = new Vec(xy.x, xy.y, 0);
+		camera.rotation_velocity = camera.rotation_velocity.minus(
+			xyv.plus(
+				xyv.multiply_scalar(
+					turn_accell
+				)
+			)
+		);
+		var mv = camera.orientation.vector(movement); // to local space
+		camera.velocity = camera.velocity.plus(
+			mv.plus(
+				mv.multiply_scalar(
+					move_accell
+				)
+			) 
+		);
+
 		// physics
 		world.update();
 
@@ -436,11 +458,8 @@
 		// clear the screen
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-		// move and look around the seen
-		var xy = mouse.get();
-		camera.rotate(-xy.x*mouse_accell,-xy.y*mouse_accell,0);
-		camera.move(movement);
-		camera.place_camera();
+		// look through camera
+		_gl.look_from(camera);
 		setMatrixUniforms();
 
 		// render the level
@@ -502,15 +521,15 @@
 		for(var p in net.players)
 		{
 			var player = net.players[p];
-			var up = player.dir.vector("up");
-			var right = player.dir.vector("right");
-			var forward = player.dir.vector("forward");
+			var up = player.body.orientation.vector("up");
+			var right = player.body.orientation.vector("right");
+			var forward = player.body.orientation.vector("forward");
 			_gl.pushMatrix();
 			_gl.multMatrix($M([
 	      [right.x, right.y, right.z, 0.0],
  		    [up.x, up.y, up.z, 0.0],
     	  [forward.x, forward.y, forward.z, 0.0],
-      	[player.pos.x, player.pos.y, player.pos.z, 1.0]
+      	[player.body.pos.x, player.body.pos.y, player.body.pos.z, 1.0]
 	    ]).transpose())
 			setMatrixUniforms();
 			gl.drawArrays(render_mode, 0, pyramidVertexPositionBuffer.numItems);
@@ -521,6 +540,7 @@
 		for(var i=0; i<world.bodies.length; i++)
 		{
 			var body = world.bodies[i];
+			if(body==camera){continue}
 			var up = body.orientation.vector("up");
 			var right = body.orientation.vector("right");
 			var forward = body.orientation.vector("forward");
@@ -584,17 +604,22 @@
 				var packet = eval("("+msg.data+")");
 				if(!net.players[packet.id]) // new player
 				{
-					net.players[packet.id] = { id: packet.id }
+					net.players[packet.id] = {
+						id: packet.id, 
+						body: sphere_body({
+							radius: 100,
+						})
+					}
 					log("new player with id: "+packet.id);
 					net.player_count++;
 				}
 				var player = net.players[packet.id];
-				player.pos = new Vec(
+				player.body.pos = new Vec(
 					packet.data.pos[0],
 					packet.data.pos[1],
 					packet.data.pos[2]
 				);
-				player.dir = new Quat(
+				player.body.orientation = new Quat(
 					packet.data.dir[0],
 					packet.data.dir[1],
 					packet.data.dir[2],
@@ -652,13 +677,18 @@
 			rotation_velocity: new Vec(1,0,0),
 			rotation_drag: 0
 		});
+		camera = sphere_body({
+			radius: 100,
+			pos: new Vec(0,0,1300),
+			drag: move_drag,
+			rotation_drag: turn_drag
+		});
 	}
 
 	$(document).ready(function() 
 	{
 		init_gl();
 		init_ui();
-		init_camera();
 		init_inputs();
 		net.connect();
 		textures.init();

@@ -1,4 +1,3 @@
-var get_ticks = function(){ return new Date().getTime(); }
 
 var CollisionTest =
 {

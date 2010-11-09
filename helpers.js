@@ -1,4 +1,6 @@
 
+	var get_ticks = function(){ return new Date().getTime(); }
+
   function getShader(gl, id) {
     var shaderScript = document.getElementById(id);
     if (!shaderScript) {

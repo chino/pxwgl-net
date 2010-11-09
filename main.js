@@ -637,17 +637,17 @@
 	{
 		world = new World();
 		sphere_body({
-			radius: 150,
+			radius: 100,
 			pos: new Vec(-500,0,0),
-			velocity: new Vec(5,0,0),
+			velocity: new Vec(2,0,0),
 			drag: 0,
 			rotation_velocity: new Vec(-1,0,0),
 			rotation_drag: 0
 		});
 		sphere_body({
-			radius: 150,
+			radius: 100,
 			pos: new Vec(500,0,0),
-			velocity: new Vec(-10,0,0),
+			velocity: new Vec(-1,0,0),
 			drag: 0,
 			rotation_velocity: new Vec(1,0,0),
 			rotation_drag: 0

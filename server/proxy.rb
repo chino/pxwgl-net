@@ -1,8 +1,17 @@
 #!/usr/bin/env ruby
 require "./lib/web-socket-ruby/lib/web_socket.rb"
+def die msg="I died"
+	puts msg
+	exit 1
+end
+def usage
+	die "Usage: #{$0} <host> <port> <domain>"
+end
+usage if ARGV.length < 3
 server = WebSocketServer.new(
-	:port => 8080, 
-	:accepted_domains => ["fly.thruhere.net"]
+	:host => ARGV[0],
+	:port => ARGV[1],
+	:accepted_domains => [ARGV[3]]
 )
 id=0
 connections = []

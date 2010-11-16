@@ -96,18 +96,29 @@ var CollisionResponse =
 		a.velocity = fva; //a.velocity.plus( fva );
 		b.velocity = fvb; //b.velocity.plus( fvb );
 
-// debugging
-
 		// detect if objects are stuck inside one another after movement
-		var afp = a.pos.plus( a.velocity ); // pos after movement
+		var afp = a.pos.plus( a.velocity );
 		var bfp = b.pos.plus( b.velocity );
-		var radius = a.radius + b.radius; // collision distance
-		if( afp.minus( bfp ).length2() > Math.pow(radius,2) ){return}
 
-		// if so separate them
-		a.pos = a.pos.plus( vn.multiply_scalar( a.radius ) ); // move them apart by their radius
-		b.pos = b.pos.minus( vn.multiply_scalar( b.radius ) );
+		// vector between objects
+		var v = afp.minus( bfp );
+		var vn = v.normalize();
+
+		// check if overlapping
+		var distance = v.length2()
+		var collision_distance = Math.pow(a.radius + b.radius,2);
+		if( distance > collision_distance ){return false}
 		log("collision response did not successfully separate objects");
+
+/*
+		// if distance is 0 we are in same position so fabricate a vector
+		if(distance <= 0) 
+			{ var vn = new Vec(0,0,1).normalize(); }
+
+		// separate them
+		a.pos = a.pos.plus( vn.multiply_scalar( a.radius ) );
+		b.pos = b.pos.minus( vn.multiply_scalar( b.radius ) );
+*/
 	}
 }
 

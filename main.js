@@ -616,7 +616,7 @@
 		},
 		receive: function(msg)
 		{
-			//log("got a message: "+msg.data);
+			log("got a message: "+msg.data);
 			try 
 			{
 				var packet = eval("("+msg.data+")");
@@ -678,7 +678,7 @@
 		send_update: function()
 		{
 			var now = get_ticks();
-			if( now - this.last_update < (1000/30) ) { return }
+			if( now - this.last_update < (1000/10) ) { return }
 			this.last_update = now;
 			net.send(
 				"{"+

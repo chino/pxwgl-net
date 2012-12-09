@@ -3,7 +3,7 @@ require "rubygems"
 require "em-websocket"
 id=0
 connections = []
-EventMachine::WebSocket.start(:host => "localhost", :port => ARGV[0]) do |ws|
+EventMachine::WebSocket.start(:host => "0.0.0.0", :port => ARGV[0]) do |ws|
 	my_id = (id+=1)
 	ws.onopen {
 		connections << ws

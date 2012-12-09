@@ -1,13 +1,9 @@
-
 Description:
 
-	Prototype to show off WebGL.
+	Prototype to render Forsaken scene in WebGL.
 
-	This project uses git.
-	
 Info:
 
-	contact: fskn.methods@gmail.com
-	chat: #6dof@irc.freenode.net
+	Contact: fskn.methods@gmail.com
+	chat: #forsaken@irc.freenode.net
 	url: http://fly.thruhere.net
-

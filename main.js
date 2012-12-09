@@ -616,7 +616,7 @@
 		},
 		receive: function(msg)
 		{
-			log("got a message: "+msg.data);
+			//log("got a message: "+msg.data);
 			try 
 			{
 				var packet = eval("("+msg.data+")");

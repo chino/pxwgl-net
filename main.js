@@ -648,13 +648,11 @@
 					packet.data.d[2],
 					packet.data.d[3]
 				);
-/* makes it very shaky , need to fix physics?
 				player.body.rotation_velocity = new Vec(
 					packet.data.r[0],
 					packet.data.r[1],
 					packet.data.r[2]
 				);
-*/
 			}
 			catch (e)
 			{ 

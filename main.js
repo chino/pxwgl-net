@@ -678,12 +678,16 @@
 			var now = get_ticks();
 			if( now - this.last_update < (1000/10) ) { return }
 			this.last_update = now;
+			var v = "0,0,0";
+			var r = "0,0,0";
+			if(camera.velocity.has_velocity()){v=camera.velocity.to_s();}
+			if(camera.rotation_velocity.has_velocity()){r=camera.rotation_velocity.to_s();}
 			net.send(
 				"{"+
 					"p:["+camera.pos.to_s()+"],"+
 					"d:["+camera.orientation.to_s()+"],"+
-					"v:["+camera.velocity.to_s()+"],"+
-					"r:["+camera.rotation_velocity.to_s()+"]"+
+					"v:["+v+"],"+
+					"r:["+r+"]"+
 				"}"
 			);
 		}

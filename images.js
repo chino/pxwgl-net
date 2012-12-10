@@ -1,7 +1,7 @@
 
 var Images = 
 {
-	path: "http://fly.thruhere.net/download/projectx/",
+	path: "", // use to point to another place
 	images: {},
 	reset: function()
 	{

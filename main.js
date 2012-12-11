@@ -264,13 +264,10 @@
 		_gl = new GL(canvas);
 		gl = _gl.gl;
 		document.addEventListener("fullscreenchange",function(){
-			/*  Enabled might not be what I'm looking for here and lib doens't provide a "is fullscreen" currently
-			    Allowing css to control size instead.
-			    See: http://www.thecssninja.com/javascript/fullscreen
-			gl.canvas.width  = document.fullscreenEnabled ? $(window).width()  : $('#canvas-width') .val();
-			gl.canvas.height = document.fullscreenEnabled ? $(window).height() : $('#canvas-height').val();
-			*/
-			var state = document.fullscreenEnabled ? "Entering" : "Leaving";
+			gl.fullscreen = !gl.fullscreen;
+			gl.canvas.width  = gl.fullscreen ? $(window).width()  : $('#canvas-width') .val();
+			gl.canvas.height = gl.fullscreen ? $(window).height() : $('#canvas-height').val();
+			var state = gl.fullscreen ? "Entering" : "Leaving";
 			log(state + " Fullscreen - Set canvas to w=" + gl.canvas.width +" h=" + gl.canvas.height);
 			update_viewport_to_canvas();
 		},false);

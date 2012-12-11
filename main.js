@@ -290,6 +290,7 @@
 	{
 		// canvas buttons
 		$("#request_full_screen").click(function(){$('#main-canvas')[0].requestFullScreen()});
+		$("#request_pointer_lock").click(function(){$('#main-canvas')[0].requestPointerLock()});
 
 		// browser capabilities pane
 		$("#fullscreen")       .html(""+GameShim.supports.fullscreen);

@@ -519,7 +519,7 @@
 				transparancies.push(level.indices[i]);
 				continue;
 			}
-			gl.bindTexture(gl.TEXTURE_2D, Images.get(level.indices[i][2]).texture);
+			Images.bind(level.indices[i][2]);
 			gl.drawArrays(render_mode, level.indices[i][0], level.indices[i][1]);
 		}
 		gl.depthMask(false);
@@ -527,7 +527,7 @@
 		gl.blendFunc(gl.SRC_ALPHA,gl.ONE);
 		for(var i=0; i<transparancies.length; i++)
 		{
-			gl.bindTexture(gl.TEXTURE_2D, Images.get(transparancies[i][2]).texture);
+			Images.bind(transparancies[i][2]);
 			gl.drawArrays(render_mode, transparancies[i][0], transparancies[i][1]);
 		}
 		gl.depthMask(true);

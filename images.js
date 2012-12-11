@@ -10,6 +10,12 @@ var Images =
 			this.images[src].image.src = src;
 		}
 	},
+	bind: function(src)
+	{
+		if(!this.images[src].ready){ return false; }
+		gl.bindTexture(gl.TEXTURE_2d, this.images[src].texture);
+		return true;
+	},
 	get: function(src)
 	{
 		src = this.path+src;
@@ -18,7 +24,8 @@ var Images =
 			src: src,
 			texture: gl.createTexture(),
 			canvas: document.createElement('canvas'),
-			image: new Image()
+			image: new Image(),
+			ready: false
 		};
 		var image = this.images[src];
 		image.image.onload = function()
@@ -64,6 +71,9 @@ var Images =
 
 			// unbind image
 			gl.bindTexture(gl.TEXTURE_2D,null);
+
+			// let everyone know they can use it
+			image.ready = true;
 		}
 		image.image.src = src;
 		return image;

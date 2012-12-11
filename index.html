@@ -1,9 +1,167 @@
 <html>
-	<head>
-		<title>PXWGL Demo</title>
-	</head>
-	<body>
-		<p><a href="https://github.com/chino/pxwgl-net">Code</a></p>
-		<p><a href="play.html">Play</a></p>
-	</body>
+<head>
+<title>ProjectX WebGL Demo</title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<script type="text/javascript" src="lib/webgl-debug.js"></script>
+<script type="text/javascript" src="lib/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="lib/sylvester.js"></script>
+<script type="text/javascript" src="lib/glUtils.js"></script>
+
+<script type="text/javascript" src="helpers.js"></script>
+<script type="text/javascript" src="ship.js"></script>
+<script type="text/javascript" src="gamma.js"></script>
+<script type="text/javascript" src="fps.js"></script>
+<script type="text/javascript" src="vector.js"></script>
+<script type="text/javascript" src="quat.js"></script>
+<script type="text/javascript" src="gl.js"></script>
+<script type="text/javascript" src="images.js"></script>
+<script type="text/javascript" src="inputs.js"></script>
+<script type="text/javascript" src="mouse.js"></script>
+<script type="text/javascript" src="physics.js"></script>
+<script type="text/javascript" src="main.js"></script>
+
+<style type="text/css">
+	body > div, body > canvas { display:block; float:left; margin:0.5em; border:1px solid black; }
+	#panel { float:right; }
+	.button { color:white; cursor:pointer; display:block; background:gray; border-bottom:1px solid black; text-align:center; }
+	.button:hover { font-style:italic; }
+	.body { padding:0.5em; }
+	.toolbar { padding-bottom:0.5em; margin-bottom:0.5em; border-bottom:1px solid black; }
+	textarea { padding:0; border:none; }
+	canvas { border:medium none; }
+</style>
+
+</head>
+<body>
+
+	<div style="padding:1em;">
+		<div id="canvas-wrapper">
+			<canvas id="lesson02-canvas" width="500" height="500"></canvas>
+		</div>
+	</div>
+	
+	<div id="panel">
+		<b class="button" onclick="$('#settings-body').toggle()">Panel</b>
+		<div class="body" id="settings-body">
+			<div style="float:left;">
+
+<form>
+
+				Info
+				<div class="body" id="info-body">
+					<div style="display:inline-block; width:9em"> Main FPS:           </div><span id="main_fps">            0       </span><br>
+					<div style="display:inline-block; width:9em"> Render FPS:         </div><span id="fps">                 0       </span><br>
+					<div style="display:inline-block; width:9em"> Phsyics FPS:        </div><span id="physics_fps">         0       </span><br>
+					<div style="display:inline-block; width:9em"> Position:           </div><span id="pos">                 0,0,0   </span><br>
+					<div style="display:inline-block; width:9em"> Orientation:        </div><span id="quat">                0,0,0,0 </span><br>
+					<div style="display:inline-block; width:9em"> Mouse:              </div><span id="mouse">               0,0     </span><br>
+					<div style="display:inline-block; width:9em"> Players:            </div><span id="players">             0       </span><br>
+					<div style="display:inline-block; width:9em"> Verts &amp; Colors: </div><span id="level-verts">         0       </span><br>
+					<div style="display:inline-block; width:9em"> Verts Unique:       </div><span id="level-verts-unique">  0       </span><br>
+					<div style="display:inline-block; width:9em"> Triangles:          </div><span id="level-triangles">     0       </span><br>
+					<div style="display:inline-block; width:9em"> TCords:             </div><span id="level-tcords">        0       </span><br>
+				</div>
+
+				Controls
+				<div style="padding:1em;">
+					<div style="display:inline-block; width:9em"> forward  </div>w <br>
+					<div style="display:inline-block; width:9em"> backward </div>s <br>
+					<div style="display:inline-block; width:9em"> up       </div>e <br>
+					<div style="display:inline-block; width:9em"> down     </div>d <br>
+					<div style="display:inline-block; width:9em"> left     </div>f <br>
+					<div style="display:inline-block; width:9em"> right    </div>g <br>
+					<div style="display:inline-block; width:9em"> Turn Accell: </div>
+						<input id="turn-accell" type="text" value="1" style="width:2em;"/> <br>
+					<div style="display:inline-block; width:9em"> Move Accell: </div>
+						<input id="move-accell" type="text" value="20" style="width:2em;"/> <br>
+					<div style="display:inline-block; width:9em"> Move Drag: </div>
+						<input id="move-drag" type="text" value="0.8" style="width:2em;"/> <br>
+					<div style="display:inline-block; width:9em"> Turn Drag: </div>
+						<input id="turn-drag" type="text" value="0.5" style="width:2em;"/> <br>
+				</div>
+
+				Graphics
+				<div style="padding:1em;">
+					Acid Effect: <input id="acid" type="checkbox"/><br>
+					Textures: <input id="texture-button" type="checkbox" checked="true"/><br>
+					Alpha Test: <input id="alpha-test" type="checkbox" checked="true"/><br>
+					Vertex Colors: <input id="vertex-colors" type="checkbox" checked="true"/><br>
+					Culling: <input id="culling" type="checkbox" checked="true"/><br>
+
+					Viewport:
+							<input id="canvas-width" type="text" value="500" style="width:2em;"/> x 
+							<input id="canvas-height" type="text" value="500" style="width:2em;"/><br>
+
+					Front Face: 
+					<select id="front-face">
+						<option value="cw">Clock Wise</option>
+						<option value="ccw">Counter CW</option>
+					</select>
+					<br>
+
+					RenderMode: 
+					<select id="rendermode-dropdown">
+						<option value="triangles">Triangles</option>
+						<option value="lines">Lines</option>
+						<option value="points">Points</option>
+					</select>
+					<br>
+
+					Line Width: <input id="line-width" type="text" value="1" style="width:2em;"/><br>
+
+					Point Size: <input id="point-size" type="text" value="1" style="width:2em;"/><br>
+
+					Perspective: 
+						(Y) <input id="fovy" type="text" value="70.0" style="width:3em;"/>
+						(F) <input id="far" type="text" value="10000.0" style="width:4em;"/><br>
+
+					Fog: <input id="fog" type="checkbox"/>
+						Density: <input id="fog-density" type="text" value="0.0005" style="width:4em;"/><br>
+
+					Gamma: <input id="gamma-value" type="text" value="1" style="width:13em;"/><br>
+					<canvas id="gamma-canvas" height="255" width="255" style="border:1px solid black; margin-top:1em;"></canvas>
+
+				</div>
+			</div>
+			<div id="textures" style="float:left; margin:0.5em;"></div>
+
+</form>
+
+		</div>
+	</div>
+
+	<div>
+		<b class="button" onclick="$('#log-body').toggle()">Logs</b>
+		<div class="body" id="log-body">
+			<div class="toolbar">
+				<input type="button" value="Clear" onclick="$('#log').empty()"/>
+			</div>
+			<div id="log"></div>
+		</div>
+	</div>
+
+	<div>
+		<b class="button" onclick="$('#vertex-shader-body').toggle()">Vertex Shader</b>
+		<div class="body" id="vertex-shader-body" style="display:none">
+			<div class="toolbar">
+				<input id="vertex-shader-apply" type="button" value="Apply Changes"/>
+				<input id="vertex-shader-reset" type="button" value="Reset Defaults"/>
+			</div>
+			<textarea class="body" id="vertex-shader" type="text" rows="50" cols="90"></textarea>
+		</div>
+	</div>
+
+	<div>
+		<b class="button" onclick="$('#fragment-shader-body').toggle()">Fragement Shader</b>
+		<div class="body" id="fragment-shader-body" style="display:none">
+			<div class="toolbar">
+				<input id="fragment-shader-apply" type="button" value="Apply Changes"/>
+				<input id="fragment-shader-reset" type="button" value="Reset Defaults"/>
+			</div>
+			<textarea id="fragment-shader" type="text" rows="50" cols="90"></textarea>
+		</div>
+	</div>
+
+</body>
 </html>

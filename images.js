@@ -13,7 +13,7 @@ var Images =
 	bind: function(src)
 	{
 		if(!this.images[src].ready){ return false; }
-		gl.bindTexture(gl.TEXTURE_2d, this.images[src].texture);
+		gl.bindTexture(gl.TEXTURE_2D, this.images[src].texture);
 		return true;
 	},
 	get: function(src)

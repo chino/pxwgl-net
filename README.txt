@@ -1,9 +1,11 @@
 Description:
 
-	Prototype to render Forsaken scene in WebGL.
+	WebGL prototype of Forsaken.
 
 Info:
 
 	Contact: fskn.methods@gmail.com
-	chat: #forsaken@irc.freenode.net
-	url: http://fly.thruhere.net
+
+	Chat: #forsaken@irc.freenode.net
+
+	Site: http://fly.thruhere.net

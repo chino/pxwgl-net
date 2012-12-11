@@ -266,6 +266,8 @@
 		document.addEventListener("fullscreenchange",function(){
 			gl.canvas.width  = document.fullscreenEnabled ? $(window).width()  : $('#canvas-width') .val();
 			gl.canvas.height = document.fullscreenEnabled ? $(window).height() : $('#canvas-height').val();
+			var state = document.fullscreenEnabled ? "Entering" : "Leaving";
+			log(state + " Fullscreen - Set canvas to w=" + gl.canvas.width +" h=" + gl.canvas.height);
 			update_viewport_to_canvas();
 		},false);
 

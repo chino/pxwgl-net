@@ -275,7 +275,7 @@
 	var init_ui = function()
 	{
 
-		// info pain
+		// info pane
 		var verts = level.vertices.length/3;
 		$('#level-verts').html(verts);
 		$('#level-triangles').html(verts/3);

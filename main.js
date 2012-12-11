@@ -267,6 +267,7 @@
 		gl = _gl.gl;
 		document.addEventListener("fullscreenchange",function(){
 			gl.fullscreen = !gl.fullscreen;
+			if(gl.fullscreen){ canvas.requestPointerLock(); }
 			gl.canvas.width  = gl.fullscreen ? $(window).width()  : $('#canvas-width') .val();
 			gl.canvas.height = gl.fullscreen ? $(window).height() : $('#canvas-height').val();
 			var state = gl.fullscreen ? "Entering" : "Leaving";

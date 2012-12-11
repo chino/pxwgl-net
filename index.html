@@ -82,35 +82,40 @@
 					<div style="display:inline-block; width:9em"> left     </div>f <br>
 					<div style="display:inline-block; width:9em"> right    </div>g <br>
 					<div style="display:inline-block; width:9em"> Turn Accell: </div>
-						<input id="turn-accell" type="text" value="1" style="width:2em;"/> <br>
+						<input id="turn-accell" type="text" value="1" style="width:3em;"/> <br>
 					<div style="display:inline-block; width:9em"> Move Accell: </div>
-						<input id="move-accell" type="text" value="20" style="width:2em;"/> <br>
+						<input id="move-accell" type="text" value="20" style="width:3em;"/> <br>
 					<div style="display:inline-block; width:9em"> Move Drag: </div>
-						<input id="move-drag" type="text" value="0.8" style="width:2em;"/> <br>
+						<input id="move-drag" type="text" value="0.8" style="width:3em;"/> <br>
 					<div style="display:inline-block; width:9em"> Turn Drag: </div>
-						<input id="turn-drag" type="text" value="0.5" style="width:2em;"/> <br>
+						<input id="turn-drag" type="text" value="0.5" style="width:3em;"/> <br>
 				</div>
 
 				Graphics
 				<div style="padding:1em;">
-					Acid Effect: <input id="acid" type="checkbox"/><br>
-					Textures: <input id="texture-button" type="checkbox" checked="true"/><br>
-					Alpha Test: <input id="alpha-test" type="checkbox" checked="true"/><br>
-					Vertex Colors: <input id="vertex-colors" type="checkbox" checked="true"/><br>
-					Culling: <input id="culling" type="checkbox" checked="true"/><br>
+					<div style="display:inline-block; width:9em"> Acid Effect: </div>
+						<input id="acid" type="checkbox"/><br>
+					<div style="display:inline-block; width:9em"> Textures: </div>
+					 <input id="texture-button" type="checkbox" checked="true"/><br>
+					<div style="display:inline-block; width:9em"> Alpha Test: </div>
+					 <input id="alpha-test" type="checkbox" checked="true"/><br>
+					<div style="display:inline-block; width:9em"> Vertex Colors: </div>
+					 <input id="vertex-colors" type="checkbox" checked="true"/><br>
+					<div style="display:inline-block; width:9em"> Culling: </div>
+					 <input id="culling" type="checkbox" checked="true"/><br>
 
-					Viewport:
-							<input id="canvas-width" type="text" value="500" style="width:2em;"/> x 
-							<input id="canvas-height" type="text" value="500" style="width:2em;"/><br>
+					<div style="display:inline-block; width:9em"> Viewport: </div>
+							<input id="canvas-width" type="text" value="500" style="width:4em;"/> x 
+							<input id="canvas-height" type="text" value="500" style="width:4em;"/><br>
 
-					Front Face: 
+					<div style="display:inline-block; width:9em"> Front Face: </div>
 					<select id="front-face">
 						<option value="cw">Clock Wise</option>
 						<option value="ccw">Counter CW</option>
 					</select>
 					<br>
 
-					RenderMode: 
+					<div style="display:inline-block; width:9em"> RenderMode: </div>
 					<select id="rendermode-dropdown">
 						<option value="triangles">Triangles</option>
 						<option value="lines">Lines</option>
@@ -118,18 +123,27 @@
 					</select>
 					<br>
 
-					Line Width: <input id="line-width" type="text" value="1" style="width:2em;"/><br>
+					<div style="display:inline-block; width:9em"> Line Width: </div>
+						<input id="line-width" type="text" value="1" style="width:3em;"/><br>
 
-					Point Size: <input id="point-size" type="text" value="1" style="width:2em;"/><br>
+					<div style="display:inline-block; width:9em"> Point Size: </div>
+						<input id="point-size" type="text" value="1" style="width:3em;"/><br>
 
-					Perspective: 
-						(Y) <input id="fovy" type="text" value="70.0" style="width:3em;"/>
-						(F) <input id="far" type="text" value="10000.0" style="width:4em;"/><br>
+					<div style="display:inline-block; width:9em"> Perspective FOVY: </div>
+						<input id="fovy" type="text" value="70.0" style="width:3em;"/><br>
 
-					Fog: <input id="fog" type="checkbox"/>
-						Density: <input id="fog-density" type="text" value="0.0005" style="width:4em;"/><br>
+					<div style="display:inline-block; width:9em"> Perspective Far: </div>
+						<input id="far" type="text" value="10000.0" style="width:10em;"/><br>
 
-					Gamma: <input id="gamma-value" type="text" value="1" style="width:13em;"/><br>
+					<div style="display:inline-block; width:9em"> Fog: </div>
+					 <input id="fog" type="checkbox"/><br>
+
+					<div style="display:inline-block; width:9em"> Fog Density: </div>
+						<input id="fog-density" type="text" value="0.0005" style="width:10em;"/><br>
+
+					<div style="display:inline-block; width:9em"> Gamma: </div>
+						<input id="gamma-value" type="text" value="1" style="width:10em;"/><br>
+
 					<canvas id="gamma-canvas" height="255" width="255" style="border:1px solid black; margin-top:1em;"></canvas>
 
 				</div>

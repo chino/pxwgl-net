@@ -260,7 +260,7 @@
 
 	var init_gl = function()
 	{
-		canvas = document.getElementById("lesson02-canvas");
+		canvas = document.getElementById("main-canvas");
 		_gl = new GL(canvas);
 		gl = _gl.gl;
 		document.addEventListener("fullscreenchange",function(){
@@ -292,7 +292,7 @@
 	var init_ui = function()
 	{
 		// canvas buttons
-		$("#request_full_screen").click(function(){$('#lesson02-canvas')[0].requestFullScreen()});
+		$("#request_full_screen").click(function(){$('#main-canvas')[0].requestFullScreen()});
 
 		// browser capabilities pane
 		$("#fullscreen")       .html(""+GameShim.supports.fullscreen);

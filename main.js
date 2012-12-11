@@ -175,34 +175,35 @@
 
 		// init pyramid for multiplayer rendering
 
-	  pyramidVertexPositionBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexPositionBuffer);
-    var vertices = [
-        // Front face
-         1.0, -1.0,  1.0,
-        -1.0, -1.0,  1.0,
-         0.0,  1.0,  0.0,
-        // Right face
-         1.0, -1.0, -1.0,
-         1.0, -1.0,  1.0,
-         0.0,  1.0,  0.0,
-        // Back face
-        -1.0, -1.0, -1.0,
-         1.0, -1.0, -1.0,
-         0.0,  1.0,  0.0,
-        // Left face
-        -1.0, -1.0,  1.0,
-        -1.0, -1.0, -1.0,
-         0.0,  1.0,  0.0,
-				// bottom face 
-         1.0, -1.0,  1.0,
-         1.0, -1.0, -1.0,
-        -1.0, -1.0,  1.0,
-        -1.0, -1.0, -1.0,
-        -1.0, -1.0,  1.0,
-         1.0, -1.0, -1.0,
-    ];
+		pyramidVertexPositionBuffer = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexPositionBuffer);
 
+		var vertices = [
+			// Front face
+			 1.0, -1.0,  1.0,
+			-1.0, -1.0,  1.0,
+			 0.0,  1.0,  0.0,
+			// Right face
+			 1.0, -1.0, -1.0,
+			 1.0, -1.0,  1.0,
+			 0.0,  1.0,  0.0,
+			// Back face
+			-1.0, -1.0, -1.0,
+			 1.0, -1.0, -1.0,
+			 0.0,  1.0,  0.0,
+			// Left face
+			-1.0, -1.0,  1.0,
+			-1.0, -1.0, -1.0,
+			 0.0,  1.0,  0.0,
+			// bottom face 
+			 1.0, -1.0,  1.0,
+			 1.0, -1.0, -1.0,
+			-1.0, -1.0,  1.0,
+			-1.0, -1.0, -1.0,
+			-1.0, -1.0,  1.0,
+			 1.0, -1.0, -1.0,
+		];
+		
 		// rotate forward so top of pyramid is forward
 		for(var i=0; i<(vertices.length/3); i++)
 		{
@@ -215,40 +216,40 @@
 		// scale the pyramid up
 		for(var i=0; i<vertices.length; i++) { vertices[i] *= 100; }
 
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-    pyramidVertexPositionBuffer.itemSize = 3;
-    pyramidVertexPositionBuffer.numItems = 18;
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+		pyramidVertexPositionBuffer.itemSize = 3;
+		pyramidVertexPositionBuffer.numItems = 18;
 
-    pyramidVertexColorBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexColorBuffer);
-    var colors = [
-        // Front face
-        1.0, 0.0, 0.0, 1.0,
-        0.0, 1.0, 0.0, 1.0,
-        0.0, 0.0, 1.0, 1.0,
-        // Right face
-        1.0, 0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0, 1.0,
-        0.0, 1.0, 0.0, 1.0,
-        // Back face
-        1.0, 0.0, 0.0, 1.0,
-        0.0, 1.0, 0.0, 1.0,
-        0.0, 0.0, 1.0, 1.0,
-        // Left face
-        1.0, 0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0, 1.0,
-        0.0, 1.0, 0.0, 1.0,
-        // Left face
-        1.0, 0.0, 0.0, 1.0,
-        1.0, 0.0, 0.0, 1.0,
-        1.0, 0.0, 0.0, 1.0,
-        1.0, 0.0, 0.0, 1.0,
-        1.0, 0.0, 0.0, 1.0,
-        1.0, 0.0, 0.0, 1.0,
-    ];
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
-    pyramidVertexColorBuffer.itemSize = 4;
-    pyramidVertexColorBuffer.numItems = 12;
+		pyramidVertexColorBuffer = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexColorBuffer);
+		var colors = [
+			// Front face
+			1.0, 0.0, 0.0, 1.0,
+			0.0, 1.0, 0.0, 1.0,
+			0.0, 0.0, 1.0, 1.0,
+			// Right face
+			1.0, 0.0, 0.0, 1.0,
+			0.0, 0.0, 1.0, 1.0,
+			0.0, 1.0, 0.0, 1.0,
+			// Back face
+			1.0, 0.0, 0.0, 1.0,
+			0.0, 1.0, 0.0, 1.0,
+			0.0, 0.0, 1.0, 1.0,
+			// Left face
+			1.0, 0.0, 0.0, 1.0,
+			0.0, 0.0, 1.0, 1.0,
+			0.0, 1.0, 0.0, 1.0,
+			// Left face
+			1.0, 0.0, 0.0, 1.0,
+			1.0, 0.0, 0.0, 1.0,
+			1.0, 0.0, 0.0, 1.0,
+			1.0, 0.0, 0.0, 1.0,
+			1.0, 0.0, 0.0, 1.0,
+			1.0, 0.0, 0.0, 1.0,
+		];
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+		pyramidVertexColorBuffer.itemSize = 4;
+		pyramidVertexColorBuffer.numItems = 12;
 	}
 
 	var init_gl = function()
@@ -262,7 +263,7 @@
 
 		gl.clearColor(0.0, 0.0, 0.0, 1.0);
 		gl.clearDepth(1.0);
-    gl.enable(gl.DEPTH_TEST);
+		gl.enable(gl.DEPTH_TEST);
 
 		gl.depthFunc(gl.LESS);
 		gl.enable(gl.CULL_FACE);
@@ -528,11 +529,11 @@
 		gl.disable(gl.BLEND);
 
 		// set pyramid buffers
-    gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexPositionBuffer);
-    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute,
+		gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexPositionBuffer);
+		gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute,
 			pyramidVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-    gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexColorBuffer);
-    gl.vertexAttribPointer(shaderProgram.vertexColorAttribute,
+		gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexColorBuffer);
+		gl.vertexAttribPointer(shaderProgram.vertexColorAttribute,
 			pyramidVertexColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 		// disable texturing for pyramid
@@ -550,11 +551,11 @@
 			var forward = player.body.orientation.vector("forward");
 			_gl.pushMatrix();
 			_gl.multMatrix($M([
-	      [right.x, right.y, right.z, 0.0],
- 		    [up.x, up.y, up.z, 0.0],
-    	  [forward.x, forward.y, forward.z, 0.0],
-      	[player.body.pos.x, player.body.pos.y, player.body.pos.z, 1.0]
-	    ]).transpose())
+				[right.x, right.y, right.z, 0.0],
+ 				[up.x, up.y, up.z, 0.0],
+				[forward.x, forward.y, forward.z, 0.0],
+				[player.body.pos.x, player.body.pos.y, player.body.pos.z, 1.0]
+				]).transpose())
 			setMatrixUniforms();
 			gl.drawArrays(render_mode, 0, pyramidVertexPositionBuffer.numItems);
 			_gl.popMatrix();
@@ -585,7 +586,7 @@
 			{ gl.enable(gl.CULL_FACE); }
 
 		// re-enable texturing if checkbox clicked
-    gl.uniform1i(shaderProgram.enableTexturingUniform,
+		gl.uniform1i(shaderProgram.enableTexturingUniform,
 			$('#texture-button').is(':checked'));
 	}
 

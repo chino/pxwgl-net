@@ -4,7 +4,7 @@ Description:
 
 Info:
 
-	To run the demo go to: http://chino.github.com/pxwgl-net/play.html
+	To run the demo go to: http://chino.github.com/pxwgl-net
 
 	Contact: fskn.methods@gmail.com
 

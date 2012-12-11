@@ -274,6 +274,9 @@
 
 	var init_ui = function()
 	{
+		// canvas buttons
+		$("#request_full_screen").click(function(){$('#lesson02-canvas')[0].requestFullScreen()});
+
 		// browser capabilities pane
 		$("#fullscreen")       .html(""+GameShim.supports.fullscreen);
 		$("#pointer_lock")     .html(""+GameShim.supports.pointerLock);

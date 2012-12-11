@@ -32,7 +32,7 @@ var GL = function(canvas)
 		{ alert("GL has no method: "+id); }
 
 	this.current_perspective['aspect'] = 
-		this.canvas.width/this.canvas.height;
+		$(this.canvas).width()/$(this.canvas).height();
 	this.set_perspective();
 
 	this.set_viewport();
@@ -119,7 +119,7 @@ GL.prototype =
 	},
 	set_viewport: function()
 	{
-		this.gl.viewport(0,0,this.canvas.width,this.canvas.height);
+		this.gl.viewport(0,0,$(this.canvas).width(),$(this.canvas).height());
 	},
 	current_perspective:
 	{
@@ -131,7 +131,7 @@ GL.prototype =
 	set_perspective: function()
 	{
 		this.current_perspective['aspect'] = 
-			this.canvas.width/this.canvas.height;
+			$(this.canvas).width()/$(this.canvas).height();
 		this.perspective(
 			this.current_perspective['fovy'],
 			this.current_perspective['aspect'],

@@ -278,7 +278,7 @@
 		$("#fullscreen")       .html(GameShim.supports.fullscreen);
 		$("#pointer_lock")     .html(GameShim.supports.pointerLock);
 		$("#gamepad")          .html(GameShim.supports.gamepad);
-		$("#high_rest_timer")  .html(GameShim.supports.highResTimer);
+		$("#high_res_timer")   .html(GameShim.supports.highResTimer);
 
 		// info pane
 		var verts = level.vertices.length/3;

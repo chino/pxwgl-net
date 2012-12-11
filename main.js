@@ -252,11 +252,18 @@
 		pyramidVertexColorBuffer.numItems = 12;
 	}
 
+	var update_viewport_to_canvas = function()
+	{
+		_gl.set_perspective();
+		_gl.set_viewport();
+	}
+
 	var init_gl = function()
 	{
 		canvas = document.getElementById("lesson02-canvas");
 		_gl = new GL(canvas);
 		gl = _gl.gl;
+		document.addEventListener("fullscreenchange",update_viewport_to_canvas(),false);
 
 		init_shaders()
 		init_buffers();
@@ -398,14 +405,12 @@
 		$('#canvas-width').keyup(function()
 		{
 			canvas.width = this.value;
-			_gl.set_perspective();
-			_gl.set_viewport();
+			update_viewport_to_canvas();
 		});
 		$('#canvas-height').keyup(function()
 		{
 			canvas.height = this.value;
-			_gl.set_perspective();
-			_gl.set_viewport();
+			update_viewport_to_canvas();
 		});
 		$("#gamma-canvas").click(function(e)
 		{

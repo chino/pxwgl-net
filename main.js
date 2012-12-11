@@ -275,10 +275,10 @@
 	var init_ui = function()
 	{
 		// browser capabilities pane
-		$("#fullscreen")       .html(GameShim.supports.fullscreen);
-		$("#pointer_lock")     .html(GameShim.supports.pointerLock);
-		$("#gamepad")          .html(GameShim.supports.gamepad);
-		$("#high_res_timer")   .html(GameShim.supports.highResTimer);
+		$("#fullscreen")       .html(""+GameShim.supports.fullscreen);
+		$("#pointer_lock")     .html(""+GameShim.supports.pointerLock);
+		$("#gamepad")          .html(""+GameShim.supports.gamepad);
+		$("#high_res_timer")   .html(""+GameShim.supports.highResTimer);
 
 		// info pane
 		var verts = level.vertices.length/3;

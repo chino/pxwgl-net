@@ -274,6 +274,11 @@
 
 	var init_ui = function()
 	{
+		// browser capabilities pane
+		$("fullscreen")       .html(GameShim.fullscreen);
+		$("pointer_lock")     .html(GameShim.pointerLock);
+		$("gamepad")          .html(GameShim.gamepad);
+		$("high_rest_timer")  .html(GameShim.highResTimer);
 
 		// info pane
 		var verts = level.vertices.length/3;

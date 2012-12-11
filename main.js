@@ -263,7 +263,12 @@
 		canvas = document.getElementById("lesson02-canvas");
 		_gl = new GL(canvas);
 		gl = _gl.gl;
-		document.addEventListener("fullscreenchange",update_viewport_to_canvas(),false);
+		document.addEventListener("fullscreenchange",function(){
+			log("fullscreen change<br>");
+			gl.canvas.width  = '100%';
+			gl.canvas.height = '100%';
+			update_viewport_to_canvas();
+		},false);
 
 		init_shaders()
 		init_buffers();

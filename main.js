@@ -275,7 +275,7 @@
 		init_shaders()
 		init_buffers();
 
-		gl.clearColor(0.0, 0.0, 0.0, 1.0);
+		gl.clearColor(clear_red, clear_green, clear_blue, 1.0);
 		gl.clearDepth(1.0);
 		gl.enable(gl.DEPTH_TEST);
 
@@ -333,6 +333,11 @@
 		});
 
 		// form fields
+
+		clear_red = clear_green = clear_blue = 0.0;
+		$('#clear-red').keyup(function(){ clear_red = this.value; });
+		$('#clear-green').keyup(function(){ clear_green = this.value; });
+		$('#clear-blue').keyup(function(){ clear_blue = this.value; });
 
 		move_accell = $('#move-accell').val();
 		$('#move-accell').keyup(function() { move_accell = this.value; });

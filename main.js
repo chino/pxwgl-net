@@ -258,6 +258,8 @@
 		_gl.set_viewport();
 	}
 
+	clear_red = clear_green = clear_blue = 0.0;
+
 	var init_gl = function()
 	{
 		canvas = document.getElementById("main-canvas");
@@ -334,7 +336,6 @@
 
 		// form fields
 
-		clear_red = clear_green = clear_blue = 0.0;
 		$('#clear-red').keyup(function(){ clear_red = this.value; });
 		$('#clear-green').keyup(function(){ clear_green = this.value; });
 		$('#clear-blue').keyup(function(){ clear_blue = this.value; });

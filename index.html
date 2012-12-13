@@ -31,6 +31,7 @@
 	.button:hover { font-style:italic; }
 	.body { padding:0.5em; }
 	.toolbar { padding-bottom:0.5em; margin-bottom:0.5em; border-bottom:1px solid black; }
+	.label { display:inline-block; width:9em; }
 	textarea { padding:0; border:none; }
 	canvas { border:medium none; }
 </style>
@@ -55,81 +56,81 @@
 
 				Project Info
 				<div style="padding:1em">
-					<div style="display:inline-block; width:9em">Generated at:        </div><span>{{ site.time }}</span><br>
-					<div style="display:inline-block; width:9em">GitHub:              </div><a href="https://github.com/chino/pxwgl-net">Project Page</a></span><br>
+					<div class="label">Generated at:        </div><span>{{ site.time }}</span><br>
+					<div class="label">GitHub:              </div><a href="https://github.com/chino/pxwgl-net">Project Page</a></span><br>
 				</div>
 
 				Browser Support
 				<div style="padding:1em">
-					<div style="display:inline-block; width:9em"> Fullscreen:         </div><span id="fullscreen">          false       </span><br>
-					<div style="display:inline-block; width:9em"> Pointer Lock:       </div><span id="pointer_lock">        false       </span><br>
-					<div style="display:inline-block; width:9em"> GamePad:            </div><span id="game_pad">            false       </span><br>
-					<div style="display:inline-block; width:9em"> High Res Timer:     </div><span id="high_res_timer">      false       </span><br>
+					<div class="label"> Fullscreen:         </div><span id="fullscreen">          false       </span><br>
+					<div class="label"> Pointer Lock:       </div><span id="pointer_lock">        false       </span><br>
+					<div class="label"> GamePad:            </div><span id="game_pad">            false       </span><br>
+					<div class="label"> High Res Timer:     </div><span id="high_res_timer">      false       </span><br>
 				</div>
 
 				Info
 				<div class="body" id="info-body">
-					<div style="display:inline-block; width:9em"> Main FPS:           </div><span id="main_fps">            0       </span><br>
-					<div style="display:inline-block; width:9em"> Render FPS:         </div><span id="fps">                 0       </span><br>
-					<div style="display:inline-block; width:9em"> Phsyics FPS:        </div><span id="physics_fps">         0       </span><br>
-					<div style="display:inline-block; width:9em"> Position:           </div><span id="pos">                 0,0,0   </span><br>
-					<div style="display:inline-block; width:9em"> Orientation:        </div><span id="quat">                0,0,0,0 </span><br>
-					<div style="display:inline-block; width:9em"> Mouse:              </div><span id="mouse">               0,0     </span><br>
-					<div style="display:inline-block; width:9em"> Players:            </div><span id="players">             0       </span><br>
-					<div style="display:inline-block; width:9em"> Verts &amp; Colors: </div><span id="level-verts">         0       </span><br>
-					<div style="display:inline-block; width:9em"> Verts Unique:       </div><span id="level-verts-unique">  0       </span><br>
-					<div style="display:inline-block; width:9em"> Triangles:          </div><span id="level-triangles">     0       </span><br>
-					<div style="display:inline-block; width:9em"> TCords:             </div><span id="level-tcords">        0       </span><br>
+					<div class="label"> Main FPS:           </div><span id="main_fps">            0       </span><br>
+					<div class="label"> Render FPS:         </div><span id="fps">                 0       </span><br>
+					<div class="label"> Phsyics FPS:        </div><span id="physics_fps">         0       </span><br>
+					<div class="label"> Position:           </div><span id="pos">                 0,0,0   </span><br>
+					<div class="label"> Orientation:        </div><span id="quat">                0,0,0,0 </span><br>
+					<div class="label"> Mouse:              </div><span id="mouse">               0,0     </span><br>
+					<div class="label"> Players:            </div><span id="players">             0       </span><br>
+					<div class="label"> Verts &amp; Colors: </div><span id="level-verts">         0       </span><br>
+					<div class="label"> Verts Unique:       </div><span id="level-verts-unique">  0       </span><br>
+					<div class="label"> Triangles:          </div><span id="level-triangles">     0       </span><br>
+					<div class="label"> TCords:             </div><span id="level-tcords">        0       </span><br>
 				</div>
 
 				Controls
 				<div style="padding:1em;">
-					<div style="display:inline-block; width:9em"> forward  </div>w <br>
-					<div style="display:inline-block; width:9em"> backward </div>s <br>
-					<div style="display:inline-block; width:9em"> up       </div>e <br>
-					<div style="display:inline-block; width:9em"> down     </div>d <br>
-					<div style="display:inline-block; width:9em"> left     </div>f <br>
-					<div style="display:inline-block; width:9em"> right    </div>g <br>
-					<div style="display:inline-block; width:9em"> Turn Accell: </div>
+					<div class="label"> forward  </div>w <br>
+					<div class="label"> backward </div>s <br>
+					<div class="label"> up       </div>e <br>
+					<div class="label"> down     </div>d <br>
+					<div class="label"> left     </div>f <br>
+					<div class="label"> right    </div>g <br>
+					<div class="label"> Turn Accell: </div>
 						<input id="turn-accell" type="text" value="1" style="width:3em;"/> <br>
-					<div style="display:inline-block; width:9em"> Move Accell: </div>
+					<div class="label"> Move Accell: </div>
 						<input id="move-accell" type="text" value="20" style="width:3em;"/> <br>
-					<div style="display:inline-block; width:9em"> Move Drag: </div>
+					<div class="label"> Move Drag: </div>
 						<input id="move-drag" type="text" value="0.8" style="width:3em;"/> <br>
-					<div style="display:inline-block; width:9em"> Turn Drag: </div>
+					<div class="label"> Turn Drag: </div>
 						<input id="turn-drag" type="text" value="0.5" style="width:3em;"/> <br>
 				</div>
 
 				Graphics
 				<div style="padding:1em;">
-					<div style="display:inline-block; width:9em"> Acid Effect: </div>
+					<div class="label"> Acid Effect: </div>
 						<input id="acid" type="checkbox"/><br>
-					<div style="display:inline-block; width:9em"> Textures: </div>
+					<div class="label"> Textures: </div>
 					 <input id="texture-button" type="checkbox" checked="true"/><br>
-					<div style="display:inline-block; width:9em"> Alpha Test: </div>
+					<div class="label"> Alpha Test: </div>
 					 <input id="alpha-test" type="checkbox" checked="true"/><br>
-					<div style="display:inline-block; width:9em"> Vertex Colors: </div>
+					<div class="label"> Vertex Colors: </div>
 					 <input id="vertex-colors" type="checkbox" checked="true"/><br>
-					<div style="display:inline-block; width:9em"> Culling: </div>
+					<div class="label"> Culling: </div>
 					 <input id="culling" type="checkbox" checked="true"/><br>
 
-					<div style="display:inline-block; width:9em"> Viewport: </div>
+					<div class="label"> Viewport: </div>
 							<input id="canvas-width" type="text" value="500" style="width:4em;"/> x 
 							<input id="canvas-height" type="text" value="500" style="width:4em;"/><br>
 
-					<div style="display:inline-block; width:9em"> Clear Color (rgb): </div>
+					<div class="label"> Clear Color (rgb): </div>
 							<input id="clear-red"   type="text" value="0.0" style="width:3em;"/>
 							<input id="clear-green" type="text" value="0.0" style="width:3em;"/>
 							<input id="clear-blue"  type="text" value="0.0" style="width:3em;"/><br>
 
-					<div style="display:inline-block; width:9em"> Front Face: </div>
+					<div class="label"> Front Face: </div>
 					<select id="front-face">
 						<option value="cw">Clock Wise</option>
 						<option value="ccw">Counter CW</option>
 					</select>
 					<br>
 
-					<div style="display:inline-block; width:9em"> RenderMode: </div>
+					<div class="label"> RenderMode: </div>
 					<select id="rendermode-dropdown">
 						<option value="triangles">Triangles</option>
 						<option value="lines">Lines</option>
@@ -137,25 +138,25 @@
 					</select>
 					<br>
 
-					<div style="display:inline-block; width:9em"> Line Width: </div>
+					<div class="label"> Line Width: </div>
 						<input id="line-width" type="text" value="1" style="width:3em;"/><br>
 
-					<div style="display:inline-block; width:9em"> Point Size: </div>
+					<div class="label"> Point Size: </div>
 						<input id="point-size" type="text" value="1" style="width:3em;"/><br>
 
-					<div style="display:inline-block; width:9em"> Perspective FOVY: </div>
+					<div class="label"> Perspective FOVY: </div>
 						<input id="fovy" type="text" value="70.0" style="width:3em;"/><br>
 
-					<div style="display:inline-block; width:9em"> Perspective Far: </div>
+					<div class="label"> Perspective Far: </div>
 						<input id="far" type="text" value="10000.0" style="width:10em;"/><br>
 
-					<div style="display:inline-block; width:9em"> Fog: </div>
+					<div class="label"> Fog: </div>
 					 <input id="fog" type="checkbox"/><br>
 
-					<div style="display:inline-block; width:9em"> Fog Density: </div>
+					<div class="label"> Fog Density: </div>
 						<input id="fog-density" type="text" value="0.0005" style="width:10em;"/><br>
 
-					<div style="display:inline-block; width:9em"> Gamma: </div>
+					<div class="label"> Gamma: </div>
 						<input id="gamma-value" type="text" value="1" style="width:10em;"/><br>
 
 					<canvas id="gamma-canvas" height="255" width="255" style="border:1px solid black; margin-top:1em;"></canvas>

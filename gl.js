@@ -41,7 +41,6 @@ var GL = function(canvas)
 }
 GL.prototype = 
 {
-	fullscreen:     false,
 	mvMatrix:       Matrix.I(4),
 	mvMatrixPacked: null,
 	mvMatrixStack:  [],

@@ -1,11 +1,5 @@
-Description:
+WebGL prototype of Forsaken.
 
-	WebGL prototype of Forsaken.
+To run the demo go to: http://chino.github.com/pxwgl-net
 
-Run Demo:
-
-	http://chino.github.com/pxwgl-net
-
-Info:
-
-	http://fly.thruhere.net
+More info at: http://fly.thruhere.net
